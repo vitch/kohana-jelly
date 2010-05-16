@@ -72,7 +72,25 @@ abstract class Jelly_Builder_Core extends Kohana_Database_Query_Builder_Select
 
 		// Set the model and the initial from()
 		$this->_model = Jelly::model_name($model);
-		$this->_register_model();
+		
+		// Hopefully we have a model to work with
+		$this->_meta = Jelly::meta($this->_model);
+
+		// Can we set the default from?
+		if ($this->_meta)
+		{
+			$this->from($this->_meta->model());
+
+			// Load with automatically here.
+			foreach ($this->_meta->load_with() as $relationship)
+			{
+				$this->with($relationship);
+			}
+		}
+		else
+		{
+			$this->from($this->_model);
+		}
 
 		// Default to loading as arrays
 		$this->as_object(FALSE);
@@ -603,33 +621,6 @@ abstract class Jelly_Builder_Core extends Kohana_Database_Query_Builder_Select
 		$this->_register_model();
 
 		return $this;
-	}
-
-	/**
-	 * Sets the model and the initial from() clause
-	 *
-	 * @return  void
-	 */
-	protected function _register_model()
-	{
-		// Hopefully we have a model to work with
-		$this->_meta = Jelly::meta($this->_model);
-
-		// Can we set the default from?
-		if ($this->_meta)
-		{
-			$this->from($this->_meta->table());
-
-			// Load with automatically here.
-			foreach ($this->_meta->load_with() as $relationship)
-			{
-				$this->with($relationship);
-			}
-		}
-		else
-		{
-			$this->from($this->_model);
-		}
 	}
 
 	/**
