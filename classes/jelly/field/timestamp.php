@@ -62,6 +62,26 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 
 		return $value;
 	}
+	
+	/**
+	 * Returns a particular value processed according
+	 * to the class's standards.
+	 *
+	 * @param   Jelly_Model  $model
+	 * @param   mixed        $value
+	 * @return  mixed
+	 **/
+	public function get($model, $value)
+	{
+		if (is_numeric($value))
+		{
+			return date($this->pretty_format, $value);
+		}
+		// If you have save()'d this model then the $value will already be converted to a pretty string...
+		return $value;
+	}
+	
+	
 
 	/**
 	 * Automatically creates or updates the time and
