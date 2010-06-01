@@ -37,6 +37,19 @@ abstract class Jelly_Field_Boolean extends Jelly_Field
 	{
 		return filter_var($value, FILTER_VALIDATE_BOOLEAN);
 	}
+	
+	/**
+	 * Returns a particular value processed according
+	 * to the class's standards.
+	 *
+	 * @param   Jelly_Model  $model
+	 * @param   mixed        $value
+	 * @return  mixed
+	 **/
+	public function get($model, $value)
+	{
+		return $value ? $this->label_true : $this->label_false;
+	}
 
 	/**
 	 * Returns the value as it should be represented in the database
