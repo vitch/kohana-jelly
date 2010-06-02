@@ -73,6 +73,11 @@ abstract class Jelly_Field_Core
 	public $callbacks = array();
 
 	/**
+	* @var  array  Any CSS classes you want to add to this fields input() element.
+	*/
+	public $css_class = array();
+
+	/**
 	 * Sets all options
 	 *
 	 * @return  void
@@ -183,9 +188,15 @@ abstract class Jelly_Field_Core
 
 		// Grant acces to all of the vars plus the field object
 		$data = array_merge(get_object_vars($this), $data, array('field' => $this));
-
+		
 		// Make sure there is an 'attrs' array set to prevent error in view
-		$data['attributes'] = Arr::get($data, 'attributes', array());
+		// And push in any classes specified in the css_class variable		
+		$attrs = Arr::get($data, 'attributes', array());
+		$css_class = Arr::get($attrs, 'class', '');
+		if (count($css_class)) {
+			$attrs['class'] = implode(' ', $this->css_class);
+		}
+		$data['attributes'] = $attrs;
 
 		// By default, a view object only needs a few defaults to display it properly
 		return View::factory($view, $data);
