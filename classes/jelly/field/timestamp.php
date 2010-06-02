@@ -115,4 +115,19 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 
 		return $value;
 	}
+
+	/**
+	 * Displays the particular field as a form item
+	 *
+	 * @param string $prefix The prefix to put before the filename to be rendered
+	 * @return View
+	 **/
+	public function input($prefix = 'jelly/field', $data = array())
+	{
+		$attrs = Arr::get($data, 'attributes', array());
+		$css_class = Arr::get($attrs, 'class', '');
+		$attrs['class'] = ($css_class == '' ? '' : ' ') . 'timestamp';
+		$data['attributes'] = $attrs;
+		return parent::input($prefix, $data);
+	}
 }
