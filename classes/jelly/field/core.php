@@ -78,6 +78,11 @@ abstract class Jelly_Field_Core
 	public $css_class = array();
 
 	/**
+	* @var  boolean  Whether this field should be rendered in a list view.
+	*/
+	public $show_in_list = true;
+	
+	/**
 	 * Sets all options
 	 *
 	 * @return  void
