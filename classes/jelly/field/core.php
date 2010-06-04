@@ -190,12 +190,17 @@ abstract class Jelly_Field_Core
 		$data = array_merge(get_object_vars($this), $data, array('field' => $this));
 		
 		// Make sure there is an 'attrs' array set to prevent error in view
-		// And push in any classes specified in the css_class variable		
 		$attrs = Arr::get($data, 'attributes', array());
-		$css_class = Arr::get($attrs, 'class', '');
-		if (count($css_class)) {
-			$attrs['class'] = implode(' ', $this->css_class);
+		
+		// And push in any classes specified in the css_class variable		
+		if (count($this->css_class)) {
+			$css_class_attr = Arr::get($attrs, 'class', '');
+			if ($css_class_attr != '') {
+				$css_class_attr .= ' ';
+			}
+			$attrs['class'] = $css_class_attr . implode(' ', $this->css_class);
 		}
+		
 		$data['attributes'] = $attrs;
 
 		// By default, a view object only needs a few defaults to display it properly
