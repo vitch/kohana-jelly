@@ -213,6 +213,19 @@ abstract class Jelly_Field_Core
 	}
 
 	/**
+	 * Gets a string representation of the value, formatted according to the
+	 * fields type.
+	 * 
+	 * @param   Jelly_Model  $model
+	 * @param   mixed        $value
+	 * @return String
+	 **/
+	public function display($model, $value)
+	{
+		return $value.'';
+	}
+
+	/**
 	 * Used internally to allow fields to inherit input views from parent classes
 	 *
 	 * @param   Jelly_Field  $class [optional]
