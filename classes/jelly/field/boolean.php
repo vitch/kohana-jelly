@@ -39,14 +39,14 @@ abstract class Jelly_Field_Boolean extends Jelly_Field
 	}
 	
 	/**
-	 * Returns a particular value processed according
-	 * to the class's standards.
-	 *
+	 * Gets a string representation of the value, formatted according to the
+	 * fields type.
+	 * 
 	 * @param   Jelly_Model  $model
 	 * @param   mixed        $value
-	 * @return  mixed
+	 * @return String
 	 **/
-	public function get($model, $value)
+	public function display($model, $value)
 	{
 		return $value ? $this->label_true : $this->label_false;
 	}
