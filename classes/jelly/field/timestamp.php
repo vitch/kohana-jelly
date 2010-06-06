@@ -83,9 +83,9 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 	 *
 	 * @param   Jelly_Model  $model
 	 * @param   mixed        $value
-	 * @return  mixed
+	 * @return  string
 	 **/
-	public function get($model, $value)
+	public function display($model, $value)
 	{
 		if (is_numeric($value))
 		{

@@ -1,1 +1,1 @@
-<?php echo Form::input($name, $value, $attributes + array('id' => 'field-'.$name)); ?>
+<?php echo Form::input($name, $field->display($field, $value), $attributes + array('id' => 'field-'.$name)); ?>
