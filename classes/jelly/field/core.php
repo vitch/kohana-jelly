@@ -205,6 +205,10 @@ abstract class Jelly_Field_Core
 			}
 			$attrs['class'] = $css_class_attr . implode(' ', $this->css_class);
 		}
+
+		if (!isset($attrs['id'])) {
+			$attrs['id'] = 'field-' . $data['name']; 
+		}
 		
 		$data['attributes'] = $attrs;
 
