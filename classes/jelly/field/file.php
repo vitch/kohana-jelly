@@ -11,6 +11,12 @@
  */
 abstract class Jelly_Field_File extends Jelly_Field
 {
+
+	/**
+	 * @var  boolean  Whether we should leave the old file name in the field when save() is called and no new file is uploaded
+	 */
+	public $retain_value_on_empty_save = FALSE;
+
 	/**
 	 * Ensures there is a path for saving set
 	 *
@@ -40,10 +46,14 @@ abstract class Jelly_Field_File extends Jelly_Field
 	 */
 	public function save($model, $value, $loaded)
 	{
+		$old_filename = $this->default;
+		if ($this->retain_value_on_empty_save AND $loaded) {
+			$old_filename = Jelly::select($this->model, $model->id())->get($this->name);
+		}
+
 		// Upload a file?
-		if (is_array($value) AND upload::valid($value))
-		{
-			if (FALSE !== ($filename = upload::save($value, NULL, $this->path)))
+		if (is_array($value) AND Upload::valid($value)) {
+			if (FALSE !== ($filename = Upload::save($value, NULL, $this->path)))
 			{
 				// Chop off the original path
 				$value = str_replace(realpath($this->path).DIRECTORY_SEPARATOR, '', $filename);
@@ -53,11 +63,20 @@ abstract class Jelly_Field_File extends Jelly_Field
 				{
 					$value = trim($value, DIRECTORY_SEPARATOR);
 				}
+
+				// delete the old file
+				if (file_exists(realpath($this->path).DIRECTORY_SEPARATOR.$old_filename)) {
+					unlink(realpath($this->path).DIRECTORY_SEPARATOR.$old_filename);
+				}
 			}
 			else
 			{
-				$value = $this->default;
+				$value = $old_filename;
 			}
+		}
+		else
+		{
+			$value = $old_filename;
 		}
 
 		return $value;
