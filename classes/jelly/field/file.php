@@ -65,7 +65,7 @@ abstract class Jelly_Field_File extends Jelly_Field
 				}
 
 				// delete the old file
-				if (file_exists(realpath($this->path).DIRECTORY_SEPARATOR.$old_filename)) {
+				if ($old_filename != $this->default && file_exists(realpath($this->path).DIRECTORY_SEPARATOR.$old_filename)) {
 					unlink(realpath($this->path).DIRECTORY_SEPARATOR.$old_filename);
 				}
 			}
