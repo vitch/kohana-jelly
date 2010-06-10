@@ -18,6 +18,11 @@ abstract class Jelly_Field_File extends Jelly_Field
 	public $retain_value_on_empty_save = FALSE;
 
 	/**
+	 * @var  boolean  Whether or not to delete the old file when a new file is added
+	 */
+	public $delete_old_file = TRUE;
+
+	/**
 	 * Ensures there is a path for saving set
 	 *
 	 * @param  array  $options
@@ -39,37 +44,45 @@ abstract class Jelly_Field_File extends Jelly_Field
 	 */
 	public function save($model, $value, $loaded)
 	{
-		$old_filename = $this->default;
-		if ($this->retain_value_on_empty_save AND $loaded) {
-			$old_filename = Jelly::select($this->model, $model->id())->get($this->name);
-		}
+		$original = $model->get($this->name, FALSE);
 
 		// Upload a file?
 		if (is_array($value) AND Upload::valid($value)) {
 			if (FALSE !== ($filename = Upload::save($value, NULL, $this->path)))
 			{
 				// Chop off the original path
-				$value = str_replace(realpath($this->path).DIRECTORY_SEPARATOR, '', $filename);
+				$value = str_replace($this->path, '', $filename);
 
 				// Ensure we have no leading slash
 				if (is_string($value))
 				{
-					$value = trim($value, DIRECTORY_SEPARATOR);
+					$value = trim($value, '/');
+				}
+
+				 // Delete the old file if we need to
+				if ($this->delete_old_file AND $original != $this->default)
+				{
+					$path = $this->path.$original;
+
+					if (file_exists($path))
+					{
+						unlink($path);
+					}
 				}
 
 				// delete the old file
-				if ($old_filename != $this->default && file_exists(realpath($this->path).DIRECTORY_SEPARATOR.$old_filename)) {
-					unlink(realpath($this->path).DIRECTORY_SEPARATOR.$old_filename);
+				if ($original != $this->default && file_exists(realpath($this->path).DIRECTORY_SEPARATOR.$original)) {
+					unlink(realpath($this->path).DIRECTORY_SEPARATOR.$original);
 				}
 			}
 			else
 			{
-				$value = $old_filename;
+				$value = $original;
 			}
 		}
 		else
 		{
-			$value = $old_filename;
+			$value = $original;
 		}
 
 		return $value;
@@ -85,6 +98,7 @@ abstract class Jelly_Field_File extends Jelly_Field
 	 */
 	protected function _check_path($path)
 	{
+		$path = realpath(str_replace('\\', '/', $path));
 		// Ensure we have path to save to
 		if (empty($path) OR !is_writable($path))
 		{
@@ -92,7 +106,7 @@ abstract class Jelly_Field_File extends Jelly_Field
 		}
 
 		// Make sure the path has a trailing slash
-		return rtrim(str_replace('\\', '/', $this->path), '/').'/';
+		return rtrim(str_replace('\\', '/', $path), '/').'/';
 	}
 
 	/**
