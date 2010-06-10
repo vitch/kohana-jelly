@@ -82,6 +82,19 @@ abstract class Jelly_Field_File extends Jelly_Field
 		return $value;
 	}
 
+	/**
+	 * Function to be used as a callback to validate that the uplaoded file isn't
+	 * bigger that upload_max_filesize (which fails silently otherwise).
+	 *
+	 * Add to the callbacks array like so:
+	 *
+	 *     'check_size'=>array('Field_File', '_check_filesize')
+	 *
+	 * @see $callbacks
+	 * @param Validate $array
+	 * @param  string $field
+	 * @return void
+	 */
 	public static function _check_filesize(Validate $array, $field)
 	{
 		$file = $array[$field];
