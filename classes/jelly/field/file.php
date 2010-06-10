@@ -26,14 +26,7 @@ abstract class Jelly_Field_File extends Jelly_Field
 	{
 		parent::__construct($options);
 
-		// Ensure we have path to save to
-		if (empty($this->path) OR !is_writable($this->path))
-		{
-			throw new Kohana_Exception(get_class($this).' must have a `path` property set that points to a writable directory');
-		}
-
-		// Make sure the path has a trailing slash
-		$this->path = rtrim(str_replace('\\', '/', $this->path), '/').'/';
+		$this->path = $this->_check_path($this->path);
 	}
 
 	/**
@@ -80,6 +73,26 @@ abstract class Jelly_Field_File extends Jelly_Field
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Checks that a given path exists and is writable and that it has a trailing slash.
+	 *
+	 * (pulled out into a method so that it can be reused easily by image subclass)
+	 *
+	 * @param  $path
+	 * @return string The path - making sure it has a trailing slash
+	 */
+	protected function _check_path($path)
+	{
+		// Ensure we have path to save to
+		if (empty($path) OR !is_writable($path))
+		{
+			throw new Kohana_Exception(get_class($this).': must have a `path` property set that points to a writable directory');
+		}
+
+		// Make sure the path has a trailing slash
+		return rtrim(str_replace('\\', '/', $this->path), '/').'/';
 	}
 
 	/**
