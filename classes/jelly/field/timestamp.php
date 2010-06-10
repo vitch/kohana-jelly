@@ -50,7 +50,7 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 		parent::initialize($model, $column);
 		array_push($this->css_class, 'timestamp');
 	}
-	
+
 	/**
 	 * Converts the time to a UNIX timestamp
 	 *
@@ -76,7 +76,7 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 
 		return $value;
 	}
-	
+
 	/**
 	 * Returns a particular value processed according
 	 * to the class's standards.
@@ -87,15 +87,10 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 	 **/
 	public function display($model, $value)
 	{
-		if (is_numeric($value))
-		{
-			return date($this->pretty_format, $value);
-		}
-		// If you have save()'d this model then the $value will already be converted to a pretty string...
-		return $value;
+		return date($this->pretty_format, $value);
 	}
-	
-	
+
+
 
 	/**
 	 * Automatically creates or updates the time and
