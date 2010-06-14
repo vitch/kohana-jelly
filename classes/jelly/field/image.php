@@ -85,9 +85,6 @@ abstract class Jelly_Field_Image extends Field_File
 	public function save($model, $value, $loaded)
 	{
 		$old_filename = $this->default;
-		if ($this->retain_value_on_empty_save AND $loaded) {
-			$old_filename = Jelly::select($this->model, $model->id())->get($this->name);
-		}
 
 		// Upload a file?
 		if (is_array($value) AND Upload::valid($value)) {
@@ -141,10 +138,6 @@ abstract class Jelly_Field_Image extends Field_File
 			{
 				$value = $old_filename;
 			}
-		}
-		else
-		{
-			$value = $old_filename;
 		}
 
 		return $value;
