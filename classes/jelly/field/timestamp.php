@@ -38,20 +38,6 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 	public $pretty_format = 'r';
 
 	/**
-	 * Adds a CSS class so that you can easily hook a javascript date picker
-	 * onto your timestamp fields.
-	 *
-	 * @param   string  $model
-	 * @param   string  $column
-	 * @return  void
-	 **/
-	public function initialize($model, $column)
-	{
-		parent::initialize($model, $column);
-		array_push($this->css_class, 'timestamp');
-	}
-
-	/**
 	 * Converts the time to a UNIX timestamp
 	 *
 	 * @param   mixed  $value
@@ -76,21 +62,6 @@ abstract class Jelly_Field_Timestamp extends Jelly_Field
 
 		return $value;
 	}
-
-	/**
-	 * Returns a particular value processed according
-	 * to the class's standards.
-	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
-	 * @return  string
-	 **/
-	public function display($model, $value)
-	{
-		return date($this->pretty_format, $value);
-	}
-
-
 
 	/**
 	 * Automatically creates or updates the time and
