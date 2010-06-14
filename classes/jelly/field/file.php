@@ -110,7 +110,7 @@ abstract class Jelly_Field_File extends Jelly_Field
 	public static function _check_filesize(Validate $array, $field)
 	{
 		$file = $array[$field];
-		if ($file['error'] == UPLOAD_ERR_INI_SIZE) {
+		if (isset($file['error']) && $file['error'] == UPLOAD_ERR_INI_SIZE) {
 			$array->error($field, 'file_too_big', array('param1' => ini_get('upload_max_filesize')));
 		}
 	}
