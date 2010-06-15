@@ -173,6 +173,11 @@ implements Jelly_Field_Behavior_Saveable, Jelly_Field_Behavior_Haveable, Jelly_F
 		{
 			foreach ($new as $new_id)
 			{
+				// Not sure why an array with NULL as the first value was coming through when you didn't submit anything
+				// on the manytomany relationship but this avoids the problem for now...
+				if ($new_id == NULL) {
+					continue;
+				}
 				Jelly::insert($this->through['model'])
 					 ->columns($this->through['columns'])
 					 ->values(array($model->id(), $new_id))
