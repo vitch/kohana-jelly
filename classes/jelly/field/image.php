@@ -142,4 +142,31 @@ abstract class Jelly_Field_Image extends Field_File
 
 		return $value;
 	}
+
+	/**
+	 * Deletes the actual uploaded image(s).
+	 *
+	 * @param   Jelly_Model  $model
+	 * @return  void
+	 */
+	public function delete($model)
+	{
+		$file = $model->get($this->name, FALSE);
+
+		if ($file != $this->default) {
+
+			$path = $this->path.$file;
+			if (file_exists($path))
+			{
+				unlink($path);
+			}
+
+			foreach ($this->thumbnails as $thumbnail) {
+				$thumbnail_path = realpath($thumbnail['path']).DIRECTORY_SEPARATOR;
+				if (file_exists($thumbnail_path.$file)) {
+					unlink($thumbnail_path.$file);
+				}
+			}
+		}
+	}
 }
