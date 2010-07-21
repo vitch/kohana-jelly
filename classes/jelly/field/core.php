@@ -171,6 +171,18 @@ abstract class Jelly_Field_Core
 	}
 
 	/**
+	 * Called just before a model is deleted. In most cases will do nothing but allows
+	 * certain field types (e.g. Field_File and Field_Image) to clean up after themselves
+	 * when they are deleted.
+	 *
+	 * @param   Jelly_Model  $model
+	 * @return  void
+	 */
+	public function delete($model)
+	{
+	}
+
+	/**
 	 * Displays the particular field as a form item
 	 *
 	 * @param string $prefix The prefix to put before the filename to be rendered

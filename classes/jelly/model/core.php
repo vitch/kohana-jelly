@@ -515,7 +515,11 @@ abstract class Jelly_Model_Core
 			{
 				$key = $this->id();
 			}
-
+			// Call delete on each individual field so they can clean up after themselves
+			foreach($this->_meta->fields() as $field) {
+				$field->delete($this);
+			}
+			
 			$result = Jelly::delete($this)
 			               ->where(':unique_key', '=', $key)
 			               ->execute();
