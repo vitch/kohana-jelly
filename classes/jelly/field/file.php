@@ -74,6 +74,26 @@ abstract class Jelly_Field_File extends Jelly_Field
 	}
 
 	/**
+	 * Deletes the actual uploaded file.
+	 *
+	 * @param   Jelly_Model  $model
+	 * @return  void
+	 */
+	public function delete($model)
+	{
+		$file = $model->get($this->name, FALSE);
+		
+		if ($file != $this->default) {
+			
+			$path = $this->path.$file;
+			if (file_exists($path))
+			{
+				unlink($path);
+			}
+		}
+	}
+
+	/**
 	 * Checks that a given path exists and is writable and that it has a trailing slash.
 	 *
 	 * (pulled out into a method so that it can be reused easily by image subclass)
