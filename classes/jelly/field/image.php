@@ -127,7 +127,9 @@ abstract class Jelly_Field_Image extends Field_File
 							$image->crop($w, $h);
 							break;
 						case Jelly_Field_Image::RESIZE_TYPE_FIT:
-							$image->resize($w, $h);
+							if ($image->width > $w || $image->height > $h) {
+								$image->resize($w, $h);
+							}
 							break;
 						case Jelly_Field_Image::RESIZE_TYPE_EXACT_FIT:
 							$image->resize($w, $h, Image::INVERSE)->crop($w, $h);
