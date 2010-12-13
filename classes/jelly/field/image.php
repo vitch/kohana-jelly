@@ -115,6 +115,11 @@ abstract class Jelly_Field_Image extends Field_File
 					}
 
 					$image = Image::factory($source_file);
+
+					if (isset($thumbnail['rotation'])) {
+						$image->rotate($thumbnail['rotation']);
+					}
+
 					$w = $thumbnail['dest_w'];
 					$h = $thumbnail['dest_h'];
 					switch ($thumbnail['resize_type']) {
