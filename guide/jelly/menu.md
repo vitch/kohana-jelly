@@ -1,5 +1,4 @@
 ## [Jelly]()
-   - [Getting started](getting-started)
    - [Defining models](defining-models)
    - [Loading and listing records](loading-and-listing)
    - [Creating, updating and deleting records](cud)
