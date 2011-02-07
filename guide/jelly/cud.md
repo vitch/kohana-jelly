@@ -67,6 +67,3 @@ method on a model. The number of affected rows (1 or 0) will be returned.
 
 	// Notice we specify a unique_key for delete()
 	Jelly::factory('post')->delete($id);
-
-
-## Next [Accessing and managing relationships](jelly.relationships)

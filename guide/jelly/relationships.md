@@ -187,7 +187,7 @@ This relationship requires a `through` table that connects the two models.
 	$post->get('tags')->delete();
 	
 	// Change the tags
-	$post->tags = Jelly::select('tag')->where('id', 'IN', $tags)->select();
+	$post->tags = Jelly::query('tag')->where('id', 'IN', $tags)->select();
 	$post->save();
 
 	// Remove the tags

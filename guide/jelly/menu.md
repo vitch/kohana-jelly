@@ -4,6 +4,7 @@
    - [Creating, updating and deleting records](cud)
    - [Relationships](relationships)
    - [Jelly field types](field-types)
+   - [Validation](validation)
    - [Understanding Aliases and Meta-Aliases](aliases)
    - [Extending the query builder](extending-builder)
    - [Defining custom fields](extending-field)

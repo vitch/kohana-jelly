@@ -44,11 +44,9 @@ The `initialize()` method is only called once per execution for each model and t
 
 ## Jelly Fields
 
-Jelly defines [many field objects](jelly.field-types) that cover the most common types of columns used in database tables.
+Jelly defines [many field objects](field-types) that cover the most common types of columns used in database tables.
 
 In Jelly, the field objects contain all the logic for retrieving, setting and saving database values.
 
 Since all relationships are handled through relationship fields, it is possible to implement custom, complex relationship
-logic in a model by [defining a custom field](jelly.extending-field).
-
-### Next [Loading and listing records](jelly.loading-and-listing)
+logic in a model by [defining a custom field](extending-field).
