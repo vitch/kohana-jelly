@@ -344,6 +344,12 @@ abstract class Jelly_Core_Model
 			               ? $this->_changed[$field->name]
 			               : $this->_original[$field->name];
 
+			// Set an empty value to NULL for deleting relationships
+			if (($field instanceof Jelly_Field_HasMany OR $field instanceof Jelly_Field_ManyToMany) AND empty($value))
+			{
+				$value = NULL;
+			}
+
 			// Ensure data is really changed
 			if ($value === $current_value)
 			{
