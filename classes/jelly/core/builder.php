@@ -236,7 +236,13 @@ abstract class Jelly_Core_Builder extends Kohana_Database_Query_Builder_Select
 		if ($meta)
 		{
 			// Allow the events to modify the result
-			$result = $meta->events()->trigger('builder.after_delete', $this);
+			$event_result = $meta->events()->trigger('builder.after_delete', $this);
+
+			// Only modify the result if callback is run
+			if ($event_result !== NULL)
+			{
+				$result = $event_result;
+			}
 		}
 		
 		return $result;
