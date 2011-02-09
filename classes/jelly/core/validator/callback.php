@@ -50,7 +50,7 @@ class Jelly_Core_Validator_Callback
 	 * @param   Validate $validate 
 	 * @return  mixed
 	 */
-	public function call(Validate $validate)
+	public function call(Validation $validate)
 	{
 		// Contextualize the callback and parameters
 		list($callback, $params) = $this->_contextualize($validate);
@@ -65,7 +65,7 @@ class Jelly_Core_Validator_Callback
 	 * @param   Validate  $validate 
 	 * @return  array
 	 */
-	protected function _contextualize(Validate $validate)
+	protected function _contextualize(Validation $validate)
 	{
 		// Copy locally, because we don't want 
 		// to go mucking with the originals
@@ -97,7 +97,7 @@ class Jelly_Core_Validator_Callback
 	 * @param   mixed     $key 
 	 * @return  mixed
 	 */
-	protected function _replace_context(Validate $validate, $key)
+	protected function _replace_context(Validation $validate, $key)
 	{
 		// Ensure we actually have a potentially valid context
 		if ( ! is_string($key) OR substr($key, 0, 1) !== ':')

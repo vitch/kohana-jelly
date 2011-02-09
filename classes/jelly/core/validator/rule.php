@@ -46,7 +46,7 @@ class Jelly_Core_Validator_Rule extends Jelly_Validator_Callback
 	 * @param   Validate $validate 
 	 * @return  mixed
 	 */
-	public function call(Validate $validate)
+	public function call(Validation $validate)
 	{
 		if (parent::call($validate) === FALSE)
 		{

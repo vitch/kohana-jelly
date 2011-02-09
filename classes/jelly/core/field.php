@@ -266,7 +266,7 @@ abstract class Jelly_Core_Field
 	 * @param   string $field
 	 * @return  void
 	 */
-	public function _is_unique(Validate $data, Jelly_Model $model, $value, $key)
+	public function _is_unique(Validation $data, Jelly_Model $model, $value, $key)
 	{	
 		// According to the SQL standard NULL is not checked by the unique constraint
 		if ($data[$this->name] !== NULL)

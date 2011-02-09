@@ -491,7 +491,7 @@ abstract class Jelly_Core_Model
 		// Run validation
 		if ( ! $this->validate($key))
 		{
-			throw new Validate_Exception($this->validator());
+			throw new Validation_Exception($this->validator());
 		}
 
 		// These will be processed later
@@ -844,7 +844,6 @@ abstract class Jelly_Core_Model
 		{
 			$current = $this->_changed[$name];
 		}
-
 		$changes = $this->_ids($models);
 
 		// Are we adding or removing?

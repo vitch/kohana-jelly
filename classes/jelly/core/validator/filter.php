@@ -38,7 +38,7 @@ class Jelly_Core_Validator_Filter extends Jelly_Validator_Callback
 	 * @param   Validate $validate 
 	 * @return  mixed
 	 */
-	public function call(Validate $validate)
+	public function call(Validation $validate)
 	{
 		$field = $validate->context('field');
 		
