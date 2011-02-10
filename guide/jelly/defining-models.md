@@ -13,23 +13,23 @@ First, let's start with a sample model:
 			// An optional database group you want to use
 			$meta->db('default');
 			
-			// The table the model is attached to.
+			// The table the model is attached to
 			// It defaults to the name of the model pluralized
 			$meta->table('posts');
 		
 			// Fields defined by the model
 			$meta->fields(array(
-				'id'      => new Jelly_Field_Primary,
-				'name'    => new Jelly_Field_String,
-				'body'    => new Jelly_Field_Text,
-				'status'  => new Jelly_Field_Enum(array(
+				'id'      => Jelly::field('primary'),
+				'name'    => Jelly::field('string'),
+				'body'    => Jelly::field('text'),
+				'status'  => Jelly::field('enum', array(
 					'choices' => array('draft', 'review', 'published')
 				)),
 				
 				// Relationships to other models
-				'author'   => new Jelly_Field_BelongsTo,
-				'comments' => new Jelly_Field_HasMany,
-				'tags'     => new Jelly_Field_ManyToMany,
+				'author'   => Jelly::field('belongsto'),
+				'comments' => Jelly::field('hasmany'),
+				'tags'     => Jelly::field('manytomany'),
 			));
 		}
 	}

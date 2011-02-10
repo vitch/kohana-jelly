@@ -53,3 +53,16 @@ At any time during a query builder chain, you can call the `count()` method to
 find out how many records will be returned.
 
 	$total_posts = Jelly::query('post')->where('published', '=', 1)->count();
+
+### Returning results as an array
+
+You can get the database results in an array using the `as_array()` method.
+
+	// Load all posts
+	$posts = Jelly::query('post')->select();
+
+	// Return the data as an array for the id, name, and body fields
+	$data = $posts->as_array(array('id', 'name', 'body'));
+
+	// Return only the names in an array
+	$data = $posts->as_array(array(NULL, 'name'));

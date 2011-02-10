@@ -1,12 +1,14 @@
 # Getting Started
 
-This is the documentation for Jelly, an ORM for Kohana 3.0.
+This is the documentation for Jelly, an ORM for Kohana 3.1.
 
-First off, if you're already feeling lost feel free to ask a question in [the official forums](http://dev.kohanaframework.org/projects/jelly/boards)—we're all very nice and helpful. If you feel better looking at the source, you can always [view the API documentation](../api/Jelly) or [browse the source on Github](http://github.com/jonathangeiger/kohana-jelly).
+[!!] __Please Note:__ this version of Jelly is a community fork, and it's goal is to ensure the compatibility with the newest Kohana version and fix bugs. It was created, because the [official module](http://github.com/jonathangeiger/kohana-jelly) was not updated recently.
+
+First off, if you're already feeling lost feel free to ask a question in [the official forums](http://dev.kohanaframework.org/projects/jelly/boards)—we're all very nice and helpful. If you feel better looking at the source, you can always [view the API documentation](../api/Jelly) or [browse the source on Github](https://github.com/creatoro/kohana-jelly-for-Kohana-3.1).
 
 ## Installation
 
-To install Jelly simply [download the latest release](http://github.com/jonathangeiger/kohana-jelly) and place it in your modules directory. After that you must edit your `application/bootstrap.php` file and modify the call to `Kohana::modules` to include the Jelly module:
+To install Jelly simply [download the latest release](https://github.com/creatoro/kohana-jelly-for-Kohana-3.1) and place it in your modules directory. After that you must edit your `application/bootstrap.php` file and modify the call to `Kohana::modules` to include the Jelly module:
 
 	Kohana::modules(array(
 	    ...
@@ -15,11 +17,9 @@ To install Jelly simply [download the latest release](http://github.com/jonathan
 	    ...
 	));
 	
-Notice that Jelly depends on Kohana 3.x's [database module](http://github.com/kohana/database). Make sure you install and configure that as well.
+Notice that Jelly depends on Kohana 3.1x's [database module](http://github.com/kohana/database). Make sure you install and configure that as well.
 
-## Upgrading
-
-If you're upgrading Jelly you may want to check out [the changelog](upgrading) to see if any API changes have occurred since you last updated.
+If you are planning to use the included __Auth driver__ you have to set the cookie salt by following [these instructions](../kohana/upgrading#cookie-salts).
 
 ## Basic Usage
 

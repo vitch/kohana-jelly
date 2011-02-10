@@ -176,7 +176,7 @@ This field is a rather abstract type that allows you to pull a database expressi
 
 For example, if you always wanted the field to return a concatenation of two columns in the database, you can do this:
  
-	'field' => new Jelly_Field_Expression('array(
+	'field' => Jelly::field('expression', array(
 	      'column' => DB::expr("CONCAT(`first_name`, ' ', `last_name`)")
 	))
  
@@ -206,7 +206,7 @@ Represents an image upload. This behaves almost exactly the same as `Jelly_Field
 
 Here is an example illustrating the `thumbnails` property. All properties are optional:
 
-	new Jelly_Field_Image(array(
+	Jelly::field('image', array(
 		// ...set your other properties...
 		'thumbnails' => array (
 			// 1st thumbnail
