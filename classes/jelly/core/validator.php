@@ -30,7 +30,7 @@ abstract class Jelly_Core_Validator extends Validation
 	 * @var  array  Fields that are required and will have all rules processed
 	 */
 	protected $_required = array();
-	
+
 	/**
 	 * Add a filter to a field. Each filter will be executed once.
 	 *
@@ -64,9 +64,9 @@ abstract class Jelly_Core_Validator extends Validation
 	 * @param   array   extra parameters for the callback
 	 * @return  $this
 	 */
-	public function rule($field, $callback, array $params = NULL)
+	public function rule($field, $rule, array $params = NULL)
 	{
-		return $this->_add('rule', $field, array(array($callback, $params)));
+		return $this->_add('rule', $field, array(array($rule, $params)));
 	}
 
 	/**
@@ -80,7 +80,7 @@ abstract class Jelly_Core_Validator extends Validation
 	{
 		return $this->_add('rule', $field, $rules);
 	}
-	
+
 	/**
 	 * Add a callback to a field. Each callback will be executed once.
 	 *
@@ -175,7 +175,7 @@ abstract class Jelly_Core_Validator extends Validation
 
 		// Only validate passed data
 		$expected = array_keys($this->getArrayCopy());
-		
+
 		// Import the validators locally
 		$validate = $this->_validate;
 
@@ -385,7 +385,7 @@ abstract class Jelly_Core_Validator extends Validation
 		// Set the field label to the field name if it doesn't exist
 		if ($field !== TRUE AND ! isset($this->_labels[$field]))
 		{
-			$this->_labels[$field] = inflector::humanize($field);
+			$this->_labels[$field] = preg_replace('/[^\pL]+/u', ' ', $field);
 		}
 		
 		// The class we'll be converting all callbacks to
@@ -403,8 +403,11 @@ abstract class Jelly_Core_Validator extends Validation
 			$callback = $set[0];
 			$params   = isset($set[1]) ? $set[1] : NULL;
 			
+			// Class for checking callable callbacks
+			$valid_class = new Valid;
+
 			// Are we supposed to convert this to a callback of this class?
-			if (is_string($callback) AND is_callable(array(get_class($this), $callback)))
+			if (is_string($callback) AND is_callable(array($valid_class, $callback)))
 			{
 				// Is the method one that marks the field as required?
 				if (in_array($callback, $this->_empty_rules))
@@ -413,11 +416,11 @@ abstract class Jelly_Core_Validator extends Validation
 				}
 				
 				// Test to see if the method is static or not
-				$method = new ReflectionMethod(get_class($this), $callback);
+				$method = new ReflectionMethod($valid_class, $callback);
 				
 				if ($method->isStatic())
 				{
-					$callback = array(get_class($this), $callback);
+					$callback = array($valid_class, $callback);
 				}
 				else
 				{
