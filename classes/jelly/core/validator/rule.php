@@ -24,17 +24,15 @@ class Jelly_Core_Validator_Rule extends Jelly_Validator_Callback
 	 */
 	public function __construct($callback, array $params = NULL)
 	{
-		$params = $params ? $params : array();
+		if ($params === NULL)
+		{
+			// Default to array(':value')
+			$params = array(':value');
+		}
 		
 		// Save the original parameters for the potential error messe
 		$this->_original_params = $params;
-		
-		// Check the parameters to see if we need to add ':value'
-		if ( ! in_array(':value', $params))
-		{
-			array_unshift($params, ':value');
-		}
-		
+
 		parent::__construct($callback, $params);
 	}
 	
@@ -43,12 +41,12 @@ class Jelly_Core_Validator_Rule extends Jelly_Validator_Callback
 	 * 
 	 * For rules, an error is added to the validation array if FALSE is returned.
 	 *
-	 * @param   Validate $validate 
+	 * @param   Validation $validation
 	 * @return  mixed
 	 */
-	public function call(Validation $validate)
+	public function call(Validation $validation)
 	{
-		if (parent::call($validate) === FALSE)
+		if (parent::call($validation) === FALSE)
 		{
 			// Determine the name of the error based on the callback
 			$error = is_array($this->_callback) ? $this->_callback[1] : $this->_callback;
@@ -73,7 +71,7 @@ class Jelly_Core_Validator_Rule extends Jelly_Validator_Callback
 					// if $key is not a string, which indicates it should be used as a message
 					if ( ! is_string($key))
 					{
-						$param = $this->_replace_context($validate, $param);
+						$param = $this->_replace_context($validation, $param);
 					}
 				}
 				
@@ -96,11 +94,11 @@ class Jelly_Core_Validator_Rule extends Jelly_Validator_Callback
 			// Ensure :value is passed to the params
 			if ( ! isset($params[':value']))
 			{
-				$params[':value'] = $validate->context('value');
+				$params[':value'] = $validation->context('value');
 			}
 			
 			// Add it to the list
-			$validate->error($validate->context('field'), $error, $params);
+			$validation->error($validation->context('field'), $error, $params);
 		}
 	}
 

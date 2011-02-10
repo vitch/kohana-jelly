@@ -242,7 +242,7 @@ abstract class Jelly_Core_Validator extends Validation
 						'field'    => $field,
 						'callback' => $callback,
 						'value'    => $this[$field],
-						'validate' => $this,
+						'validation' => $this,
 					));
 					
 					// Call
@@ -424,7 +424,7 @@ abstract class Jelly_Core_Validator extends Validation
 				}
 				else
 				{
-					$callback = array(':validate', $callback);
+					$callback = array(':validation', $callback);
 				}
 			}
 			

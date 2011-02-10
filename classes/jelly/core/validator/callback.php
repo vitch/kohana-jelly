@@ -20,7 +20,7 @@ class Jelly_Core_Validator_Callback
 	/**
 	 * Creates a new callback.
 	 * 
-	 * If $params is empty it is set to array(':validate', ':field'), 
+	 * If $params is empty it is set to array(':validation', ':field'),
 	 * which mimics the old validation class. 
 	 *
 	 * @param  callback  $callback 
@@ -29,7 +29,7 @@ class Jelly_Core_Validator_Callback
 	public function __construct($callback, array $params = NULL)
 	{
 		$this->_callback = $callback;
-		$this->_params   = $params ? $params : array(':validate', ':field');
+		$this->_params   = $params ? $params : array(':validation', ':field');
 	}
 	
 	/**
@@ -47,13 +47,13 @@ class Jelly_Core_Validator_Callback
 	 * For consistency with the rest of the library it is recommended that
 	 * the name begin with a colon (:).
 	 *
-	 * @param   Validate $validate 
+	 * @param   Validation $validation
 	 * @return  mixed
 	 */
-	public function call(Validation $validate)
+	public function call(Validation $validation)
 	{
 		// Contextualize the callback and parameters
-		list($callback, $params) = $this->_contextualize($validate);
+		list($callback, $params) = $this->_contextualize($validation);
 		
 		// Simply call the method
 		return call_user_func_array($callback, $params);
@@ -62,10 +62,10 @@ class Jelly_Core_Validator_Callback
 	/**
 	 * Returns a callback and parameter list with contexts replaced.
 	 *
-	 * @param   Validate  $validate 
+	 * @param   Validation  $validation
 	 * @return  array
 	 */
-	protected function _contextualize(Validation $validate)
+	protected function _contextualize(Validation $validation)
 	{
 		// Copy locally, because we don't want 
 		// to go mucking with the originals
@@ -75,13 +75,13 @@ class Jelly_Core_Validator_Callback
 		// Check for a context to replace on the callback object
 		if (is_array($callback) AND isset($callback[0]))
 		{
-			$callback[0] = $this->_replace_context($validate, $callback[0]);
+			$callback[0] = $this->_replace_context($validation, $callback[0]);
 		}
 		
 		// Replace all param contexts
 		foreach ((array)$params as $key => $param)
 		{
-			$params[$key] = $this->_replace_context($validate, $param);
+			$params[$key] = $this->_replace_context($validation, $param);
 		}
 		
 		return array($callback, $params);
@@ -93,11 +93,11 @@ class Jelly_Core_Validator_Callback
 	 * If $key is not a string or does not start with ':'
 	 * the key is simply returned.
 	 *
-	 * @param   Validate  $validate
+	 * @param   Validation  $validation
 	 * @param   mixed     $key 
 	 * @return  mixed
 	 */
-	protected function _replace_context(Validation $validate, $key)
+	protected function _replace_context(Validation $validation, $key)
 	{
 		// Ensure we actually have a potentially valid context
 		if ( ! is_string($key) OR substr($key, 0, 1) !== ':')
@@ -105,7 +105,7 @@ class Jelly_Core_Validator_Callback
 			return $key;
 		}
 		
-		return $validate->context(substr($key, 1));
+		return $validation->context(substr($key, 1));
 	}
 
 } // End Kohana_Validate_Callback

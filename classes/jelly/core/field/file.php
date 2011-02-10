@@ -41,7 +41,7 @@ abstract class Jelly_Core_Field_File extends Jelly_Field
 		$this->path = $this->_check_path($this->path);
 		
 		// Add a callback to save the file when validating
-		$this->callbacks[] = array(array($this, '_upload'), array(':validate', ':model', ':field'));
+		$this->callbacks[] = array(array($this, '_upload'), array(':validation', ':model', ':field'));
 	}
 
 	/**
