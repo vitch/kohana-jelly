@@ -22,12 +22,12 @@ abstract class Jelly_Core_Field_Password extends Jelly_Field_String
 	 *
 	 * @param  array  $options 
 	 */
-	public function __construct($options = array())
+	public function initialize($model, $column)
 	{
-		parent::__construct($options);
-		
-		// Add a callback that hashes the password when validating
-		$this->callbacks[] = array(array($this, 'hash'), array(':validation', ':model'));
+		parent::initialize($model, $column);
+
+		// Add a rule that hashes the password when validating
+		$this->rules[] = array(array($this, 'hash'), array(':validation', ':model'));
 	}
 
 	/**

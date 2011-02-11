@@ -361,7 +361,7 @@ abstract class Jelly_Core_Builder extends Kohana_Database_Query_Builder_Select
 		{
 			$class = Jelly::class_name($this->_meta->model());
 		}
-		
+
 		return parent::as_object($class);
 	}
 	

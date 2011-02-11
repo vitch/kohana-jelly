@@ -17,8 +17,6 @@ abstract class Jelly_Core_Validator extends Validation
 		'filter'   => array(),
 		// Rules which verify a value
 		'rule'     => array(),
-		// Custom callbacks
-		'callback' => array(),
 	);
 	
 	/**
@@ -79,31 +77,6 @@ abstract class Jelly_Core_Validator extends Validation
 	public function rules($field, array $rules)
 	{
 		return $this->_add('rule', $field, $rules);
-	}
-
-	/**
-	 * Add a callback to a field. Each callback will be executed once.
-	 *
-	 * @param   string  field name
-	 * @param   mixed   valid PHP callback
-	 * @param   array   extra parameters for the callback
-	 * @return  $this
-	 */
-	public function callback($field, $callback, array $params = NULL)
-	{
-		return $this->_add('callback', $field, array(array($callback, $params)));
-	}
-
-	/**
-	 * Adds multiple callbacks to a field.
-	 *
-	 * @param   string  field name
-	 * @param   array   array of callbacks
-	 * @return  $this
-	 */
-	public function callbacks($field, array $callbacks)
-	{
-		return $this->_add('callback', $field, $callbacks);
 	}
 	
 	/**
