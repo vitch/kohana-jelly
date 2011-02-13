@@ -49,6 +49,7 @@ class Model_Auth_User extends Jelly_Model {
 				'in_db' => FALSE,
 			)),
 			'logins' => Jelly::field('integer', array(
+				'default' => 0,
 				'convert_empty' => TRUE,
 				'empty_value' => 0,
 			)),
