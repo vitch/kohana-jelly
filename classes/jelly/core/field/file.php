@@ -12,7 +12,7 @@
  *
  * @package  Jelly
  */
-abstract class Jelly_Core_Field_File extends Jelly_Field
+abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_Supports_Save
 {
 	/**
 	 * @var  boolean  Whether or not to delete the old file when a new file is added
@@ -28,6 +28,11 @@ abstract class Jelly_Core_Field_File extends Jelly_Field
 	 * @var  array  Valid types for the file
 	 */
 	public $types = array();
+
+	/**
+	 * @var  string  The filename that will be saved
+	 */
+	protected $_filename;
 	
 	/**
 	 * Ensures there is a path for saving set
@@ -51,6 +56,19 @@ abstract class Jelly_Core_Field_File extends Jelly_Field
 
 		// Add a rule to save the file when validating
 		$this->rules[] = array(array(':field', '_upload'), array(':validation', ':model', ':field'));
+	}
+
+	/**
+	 * Implementation for Jelly_Field_Supports_Save.
+	 *
+	 * @param   Jelly_Model  $model
+	 * @param   mixed        $value
+	 * @param   boolean      $key
+	 * @return  void
+	 */
+	public function save($model, $value, $loaded)
+	{
+		return $this->_filename;
 	}
 
 	/**
@@ -106,8 +124,8 @@ abstract class Jelly_Core_Field_File extends Jelly_Field
 			// Garbage collect
 			$this->_delete_old_file($model->original($this->name), $this->path);
 			
-			// Set the new filename on the model
-			$validation[$field] = $value;
+			// Set the saved filename
+			$this->_filename = $value;
 		}
 		else
 		{
