@@ -68,7 +68,7 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	 */
 	public function save($model, $value, $loaded)
 	{
-		return $this->_filename;
+		return $this->_filename ? $this->_filename : $value;
 	}
 
 	/**
