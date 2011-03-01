@@ -150,8 +150,8 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	protected function _check_path($path)
 	{
 		// Normalize the path
-		$path = str_replace('\\', '/', realpath($this->path));
-		
+		$path = str_replace('\\', '/', realpath($path));
+
 		// Ensure we have a trailing slash
 		if (!empty($path) AND is_writable($path))
 		{
