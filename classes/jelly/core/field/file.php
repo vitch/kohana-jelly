@@ -112,6 +112,9 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 		// Upload a file?
 		if (FALSE !== ($filename = Upload::save($file, NULL, $this->path)))
 		{
+			// Standardise slashes
+			$filename = str_replace('\\', '/', $filename);
+
 			// Chop off the original path
 			$value = str_replace($this->path, '', $filename);
 
@@ -147,7 +150,7 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	protected function _check_path($path)
 	{
 		// Normalize the path
-		$path = realpath(str_replace('\\', '/', $path));
+		$path = str_replace('\\', '/', realpath($this->path));
 		
 		// Ensure we have a trailing slash
 		if (!empty($path) AND is_writable($path))
