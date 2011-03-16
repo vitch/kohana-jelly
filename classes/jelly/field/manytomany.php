@@ -178,19 +178,21 @@ implements Jelly_Field_Behavior_Saveable, Jelly_Field_Behavior_Haveable, Jelly_F
 				if ($new_id == NULL) {
 					continue;
 				}
-				Jelly::factory(
-					$this->through['model'],
-					array(
-						$this->through['columns'][0] => $model->id(),
-						$this->through['columns'][1] => $new_id
-					)
-				)->save();
-				/*
-				Jelly::insert($this->through['model'])
-					 ->columns($this->through['columns'])
-					 ->values(array($model->id(), $new_id))
-					 ->execute(Jelly::meta($model)->db());
-				*/
+
+				if (class_exists(Jelly::class_name($this->through['model']))) {
+					Jelly::factory(
+						$this->through['model'],
+						array(
+							$this->through['columns'][0] => $model->id(),
+							$this->through['columns'][1] => $new_id
+						)
+					)->save();
+				} else {
+					Jelly::insert($this->through['model'])
+						 ->columns($this->through['columns'])
+						 ->values(array($model->id(), $new_id))
+						 ->execute(Jelly::meta($model)->db());
+				}
 			}
 		}
 	}
