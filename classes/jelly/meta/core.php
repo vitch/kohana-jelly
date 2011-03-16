@@ -163,12 +163,12 @@ abstract class Jelly_Meta_Core
 			$this->defaults[$column] = $field->default;
 
 			// Set the columns, so that we can access reverse database results properly
-			if ( ! array_key_exists($field->column, $this->columns))
+			if ( ! array_key_exists($field->column . '', $this->columns))
 			{
-				$this->columns[$field->column] = array();
+				$this->columns[$field->column . ''] = array();
 			}
 
-			$this->columns[$field->column][] = $column;
+			$this->columns[$field->column . ''][] = $column;
 		}
 
 		// Meta object is initialized and no longer writable
