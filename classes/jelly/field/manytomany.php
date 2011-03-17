@@ -179,6 +179,7 @@ implements Jelly_Field_Behavior_Saveable, Jelly_Field_Behavior_Haveable, Jelly_F
 					continue;
 				}
 
+				/*
 				if (class_exists(Jelly::class_name($this->through['model']))) {
 					Jelly::factory(
 						$this->through['model'],
@@ -188,11 +189,12 @@ implements Jelly_Field_Behavior_Saveable, Jelly_Field_Behavior_Haveable, Jelly_F
 						)
 					)->save();
 				} else {
+				 */
 					Jelly::insert($this->through['model'])
 						 ->columns($this->through['columns'])
 						 ->values(array($model->id(), $new_id))
 						 ->execute(Jelly::meta($model)->db());
-				}
+				//}
 			}
 		}
 	}
