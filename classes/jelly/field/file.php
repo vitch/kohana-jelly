@@ -45,7 +45,7 @@ abstract class Jelly_Field_File extends Jelly_Field
 			if (FALSE !== ($filename = Upload::save($value, NULL, $this->path)))
 			{
 				// Chop off the original path
-				$value = str_replace($this->path, '', $filename);
+				$value = str_replace(realpath($this->path).DIRECTORY_SEPARATOR, '', $filename);
 
 				// Ensure we have no leading slash
 				if (is_string($value))
@@ -56,7 +56,7 @@ abstract class Jelly_Field_File extends Jelly_Field
 				 // Delete the old file if we need to
 				if ($this->delete_old_file AND $original != $this->default)
 				{
-					$path = $this->path.$original;
+					$path = realpath($this->path).$original;
 
 					if (file_exists($path))
 					{
