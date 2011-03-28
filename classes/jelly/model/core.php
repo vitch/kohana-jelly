@@ -661,7 +661,10 @@ abstract class Jelly_Model_Core
 			$data->label($column, $field->label);
 			$data->filters($column, $field->filters);
 			$data->rules($column, $field->rules);
-			$data->callbacks($column, $field->callbacks);
+			foreach ($field->callbacks as $callback)
+			{
+				$data->callback($column, $callback, isset($callback[2]) ? $callback[2] : array());
+			}
 		}
 
 		if ( ! $data->check())
