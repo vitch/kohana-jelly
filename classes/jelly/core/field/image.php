@@ -1,23 +1,27 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles image uploads and optionally creates thumbnails of different sizes from the uploaded image
- * (as specified by the $thumbnails array).
+ * Handles image uploads and optionally refactors the original image and creates thumbnails of different sizes from the
+ * uploaded image (as specified by the $thumbnails array).
  *
- * Each thumbnail is specified as an array with the following properties: path, resize, crop, and driver.
+ * The original image can be refactored, just like the way each thumbnail is specified as an array with the following
+ * properties: path, resize, crop, quality and driver.
+ *
  * 
- *  * **path** is the only required property. It must point to a valid, writable directory.
- *  * **resize** is the arguments to pass to Image->resize(). See the documentation for that method for more info.
- *  * **crop** is the arguments to pass to Image->crop(). See the documentation for that method for more info.
+ *  path: the only required property. It must point to a valid, writable directory.
+ *  resize: the arguments to pass to Image->resize(). See the documentation for that method for more info.
+ *  crop: is the arguments to pass to Image->crop(). See the documentation for that method for more info.
+ *  quality: the desired quality of the saved image between 0 and 100.
  *
  * For example:
  *
  *     "thumbnails" => array (
  *         // 1st thumbnail
  *         array(
- *             'path'   => DOCROOT.'upload/images/my_thumbs/', // where to save the thumbnails
- *             'resize' => array(500, 500, Image::AUTO),       // width, height, resize type
- *             'crop'   => array(100, 100, NULL, NULL),        // width, height, offset_x, offset_y
- *             'driver' => 'ImageMagick',                      // NULL defaults to Image::$default_driver
+ *             'path'   => 'upload/images/thumbs/',    // where to save the thumbnails
+ *             'resize' => array(500, 500, Image::AUTO),  // width, height, master dimension
+ *             'crop'   => array(100, 100, NULL, NULL),   // width, height, offset_x, offset_y
+ *             'quality' => 100,        				  // desired quality of the saved image, default 100
+ *             'driver' => 'ImageMagick',                 // NULL defaults to Image::$default_driver
  *         ),
  *         // 2nd thumbnail
  *         array(
@@ -32,8 +36,12 @@
  * @see        Image::resize
  * @see        Image::crop
  */
-abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File {
+abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 
+	/**
+	 * @var  array  defaults for saving the original image and thumbnails
+	 *
+	 */
 	protected static $defaults = array(
 		// The path to save to
 		'path'   => NULL, 
@@ -41,12 +49,14 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File {
 		'resize' => NULL,
 		// An array to pass to crop(). e.g. array($width, $height, $offset_x, $offset_y)
 		'crop'   => NULL,
+		// The quality of the image
+		'quality' => 100,
 		// The driver to use, defaults to Image::$default_driver
 		'driver' => NULL,
 	);
 	
 	/**
-	 * @var  array  specifications for all of the thumbnails that should be automatically generated when a new image is uploaded.
+	 * @var  array  specifications for all of the thumbnails that should be automatically generated when a new image is uploaded
 	 *  
 	 */
 	public $thumbnails = array();
@@ -64,6 +74,9 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File {
 	 */
 	public function __construct($options = array())
 	{
+		// Merge defaults to prevent array access errors down the line
+		$options += Jelly_Field_Image::$defaults;
+
 		parent::__construct($options);
 
 		// Check that all thumbnail directories are writable...
@@ -87,7 +100,7 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File {
 	 * @param   Validation   validation
 	 * @param   Jelly_Model  model
 	 * @param   string       field
-	 * @return  string | NULL
+	 * @return  void
 	 */
 	public function _upload(Validation $validation, $model, $field)
 	{
@@ -96,37 +109,93 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File {
 		{
 			return;
 		}
-		
+
+		// Set the filename and the source
+		$filename = $this->_filename;
+		$source   = $this->path.$filename;
+
+		// Resize, crop or change quality of the original if needed
+		if ($this->resize OR $this->crop OR $this->quality < 100)
+		{
+			// Create an empty array for methods
+			$methods = array();
+
+			// Add resize to settings if set
+			if ($this->resize)
+			{
+				$methods['resize'] = $this->resize;
+			}
+
+			// Add crop to settings if set
+			if ($this->crop)
+			{
+				$methods['crop'] = $this->crop;
+			}
+
+			// Add driver to settings is set
+			if ($this->driver)
+			{
+				$driver = $this->driver;
+			}
+			else
+			{
+				$driver = NULL;
+			}
+
+			// Resize and crop image
+			$this->_refactor($source, $driver, $methods, NULL, $this->quality);
+		}
+
 		// Has our source file changed?
 		if ($model->changed($field))
 		{
-			$filename = $this->_filename;
-			$source   = $this->path.$filename;
-			
-			foreach($this->thumbnails as $thumbnail)
+			foreach ($this->thumbnails as $thumbnail)
 			{
-				$dest = $thumbnail['path'].$filename;
-				
+				// Set the destination
+				$destination = $thumbnail['path'].$filename;
+
 				// Delete old file if necessary
 				$this->_delete_old_file($model->original($field), $thumbnail['path']);
-				
-				// Let the Image class do its thing
-				$image = Image::factory($source, $thumbnail['driver'] ? $thumbnail['driver'] : Image::$default_driver);
-				
-				// This little bit of craziness allows us to call resize 
-				// and crop in the order specifed by the config array
-				foreach ($thumbnail as $method => $args)
-				{
-					if (($method === 'resize' OR $method === 'crop') AND $args)
-					{
-						call_user_func_array(array($image, $method), $args);
-					}
-				}
-				
-				// Save
-				$image->save($dest);
+
+				// Resize and crop images
+				$this->_refactor($source, $thumbnail['driver'], $thumbnail, $destination, $thumbnail['quality']);
 			}
 		}
+	}
+
+	/**
+	 * Refactors the images.
+	 *
+	 * @param   string  the source file
+	 * @param   driver  image driver to use
+	 * @param   array   image refactoring methods
+	 * @param   string  the destination file
+	 * @param   int     quality of the saved file
+	 * @return  void
+	 */
+	protected function _refactor($source, $driver, $methods, $destination = NULL, $quality = NULL)
+	{
+		// If quality is NULL set it to the default value
+		if ($quality === NULL)
+		{
+			$quality = Jelly_Field_Image::$defaults['quality'];
+		}
+
+		// Let the Image class do its thing
+		$image = Image::factory($source, $driver ? $driver : Image::$default_driver);
+
+		// This little bit of craziness allows us to call resize
+		// and crop in the order specifed by the config array.
+		foreach ($methods as $method => $args)
+		{
+			if (($method === 'resize' OR $method === 'crop') AND $args)
+			{
+				call_user_func_array(array($image, $method), $args);
+			}
+		}
+
+		// Save
+		$image->save($destination, $quality);
 	}
 
 } // End Jelly_Core_Field_Image

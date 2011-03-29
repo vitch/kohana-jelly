@@ -45,6 +45,7 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	{
 		parent::__construct($options);
 		
+		// Set the path
 		$this->path = $this->_check_path($this->path);
 	}
 
@@ -93,26 +94,28 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 		// Get the image from the validation object
 		$file = $validation[$field];
 
+		// Check if it's a valid file
 		if ( ! is_array($file) OR ! Upload::valid($file) OR ! Upload::not_empty($file))
 		{
-			return FALSE;
+			// Add error
+			return $validation->error($field, 'invalid_file');
 		}
-		
+
 		// Check to see if it's a valid type
 		if ($this->types AND ! Upload::type($file, $this->types))
 		{
-			$validation->error($field, 'Upload::type');
-			return FALSE;
+			// Add error
+			return $validation->error($field, 'invalid_type');
 		}
-		
+
 		// Sanitize the filename
 		$file['name'] = preg_replace('/[^a-z0-9-\.]/', '-', strtolower($file['name']));
 
 		// Strip multiple dashes
 		$file['name'] = preg_replace('/-{2,}/', '-', $file['name']);
-		
+
 		// Upload a file?
-		if (FALSE !== ($filename = Upload::save($file, NULL, $this->path)))
+		if (($filename = Upload::save($file, NULL, $this->path)) !== FALSE)
 		{
 			// Standardise slashes
 			$filename = str_replace('\\', '/', $filename);
@@ -134,8 +137,8 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 		}
 		else
 		{
-			$validation->error($field, 'Upload::save');
-			return FALSE;
+			// Add error
+			return $validation->error($field, 'invalid_file');
 		}
 		
 		return TRUE;
@@ -155,7 +158,7 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 		$path = str_replace('\\', '/', realpath($path));
 
 		// Ensure we have a trailing slash
-		if (!empty($path) AND is_writable($path))
+		if ( ! empty($path) AND is_writable($path))
 		{
 			$path = rtrim($path, '/').'/';
 		}
@@ -179,10 +182,13 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 		 // Delete the old file if we need to
 		if ($this->delete_old_file AND $filename != $this->default)
 		{
+			// Set the file path
 			$path = $path.$filename;
 			
-			if (file_exists($path)) 
+			// Check if file exists
+			if (file_exists($path))
 			{
+				// Delete file
 				unlink($path);
 			}
 		}
