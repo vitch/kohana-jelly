@@ -577,6 +577,12 @@ abstract class Jelly_Core_Meta
 	{
 		if (func_num_args() !== 0)
 		{
+			// Convert the value to an array if needed
+			if ( ! is_array($value))
+			{
+				$value = (array) $value;
+			}
+
 			return $this->set('load_with', $value);
 		}
 

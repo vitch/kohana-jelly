@@ -16,6 +16,9 @@ First, let's start with a sample model:
 			// The table the model is attached to
 			// It defaults to the name of the model pluralized
 			$meta->table('posts');
+
+			// Optionally you can auto-load relationships every time you load the model
+			$meta->load_with('author');
 		
 			// Fields defined by the model
 			$meta->fields(array(
