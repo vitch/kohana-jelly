@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles passwords by automatically hashing them before they're
  * saved to the database.
@@ -8,19 +7,22 @@
  * callback. This gives you a chance to validate the password, and have it
  * be hashed after validation.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_Password extends Jelly_Field_String
-{
+abstract class Jelly_Core_Field_Password extends Jelly_Field_String {
+
 	/**
-	 * @var  callback  A valid callback to use for hashing the password or FALSE to not hash
+	 * @var  callback  a valid callback to use for hashing the password or FALSE to not hash
 	 */
 	public $hash_with = 'sha1';
 	
 	/**
 	 * Adds a filter that hashes the password.
 	 *
-	 * @param  array  $options 
+	 * @param  array  options
 	 */
 	public function initialize($model, $column)
 	{
@@ -31,10 +33,10 @@ abstract class Jelly_Core_Field_Password extends Jelly_Field_String
 	}
 
 	/**
-	 * Hashes the password only if it's changed
+	 * Hashes the password only if it's changed.
 	 *
-	 * @param   string  $password
-	 * @param   Jelly_Model      $model
+	 * @param   string       password
+	 * @param   Jelly_Model  model
 	 * @return  void
 	 */
 	public function hash($password, Jelly_Model $model)
@@ -46,4 +48,5 @@ abstract class Jelly_Core_Field_Password extends Jelly_Field_String
 			return call_user_func($this->hash_with, $password);
 		}
 	}
-}
+
+} // End Jelly_Core_Field_Password

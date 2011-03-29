@@ -1,21 +1,23 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles "slugs".
  *
- * Slugs are automatically converted .
+ * Slugs are automatically converted.
  *
  * A valid slug consists of lowercase alphanumeric characters, plus
  * underscores, dashes, and forward slashes.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_Slug extends Jelly_Field_String
-{
+abstract class Jelly_Core_Field_Slug extends Jelly_Field_String {
+
 	/**
 	 * Converts a slug to value valid for a URL.
 	 *
-	 * @param   mixed  $value
+	 * @param   mixed  value
 	 * @return  mixed
 	 */
 	public function set($value)
@@ -36,4 +38,5 @@ abstract class Jelly_Core_Field_Slug extends Jelly_Field_String
 
 		return $value;
 	}
-}
+
+} // End Jelly_Core_Field_Slug

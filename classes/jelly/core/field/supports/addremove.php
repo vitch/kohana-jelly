@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Declares a field that can have individual records add()ed or remove()ed from it.
  *
@@ -17,9 +16,9 @@
  *
  * And in its save() method, it should expect an array of primary keys.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-interface Jelly_Core_Field_Supports_AddRemove extends Jelly_Field_Supports_Save
-{
-
-}
+interface Jelly_Core_Field_Supports_AddRemove extends Jelly_Field_Supports_Save {}

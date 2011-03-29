@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles expression fields, which allow an arbitrary database 
  * expression as the field column.
@@ -13,12 +12,16 @@
  * 
  * Keep in mind that aliasing breaks down in Database_Expressions.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_Expression extends Jelly_Field
-{
+abstract class Jelly_Core_Field_Expression extends Jelly_Field {
+
 	/**
-	 * @var  boolean  Expression fields are not in_db
+	 * @var  boolean  expression fields are not in_db
 	 */
 	public $in_db = FALSE;
-}
+
+} // End Jelly_Core_Field_Expression

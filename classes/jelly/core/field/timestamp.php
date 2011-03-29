@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles timestamps and conversions to and from different formats.
  *
@@ -13,34 +12,37 @@
  * to represent dates in the database, you just have to update the $format
  * property for the field.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_Timestamp extends Jelly_Field
-{
+abstract class Jelly_Core_Field_Timestamp extends Jelly_Field {
+
 	/**
-	 * @var  int  Default is NULL, which implies no date
+	 * @var  int  default is NULL, which implies no date
 	 */
 	public $default = NULL;
 	
 	/**
-	 * @var  boolean  Whether or not to automatically set now() on creation
+	 * @var  boolean  whether or not to automatically set now() on creation
 	 */
 	public $auto_now_create = FALSE;
 
 	/**
-	 * @var  boolean  Whether or not to automatically set now() on update
+	 * @var  boolean  whether or not to automatically set now() on update
 	 */
 	public $auto_now_update = FALSE;
 
 	/**
-	 * @var  string  A date formula representing the time in the database
+	 * @var  string  a date formula representing the time in the database
 	 */
 	public $format = NULL;
 	
 	/**
-	 * Constructor. Sets the default to 0 if we have no format, or an empty string otherwise.
+	 * Sets the default to 0 if we have no format, or an empty string otherwise.
 	 *
-	 * @param   array   $options 
+	 * @param  array  options
 	 */
 	public function __construct($options = array())
 	{
@@ -54,9 +56,9 @@ abstract class Jelly_Core_Field_Timestamp extends Jelly_Field
 	}
 
 	/**
-	 * Converts the time to a UNIX timestamp
+	 * Converts the time to a UNIX timestamp.
 	 *
-	 * @param   mixed  $value
+	 * @param   mixed  value
 	 * @return  mixed
 	 */
 	public function set($value)
@@ -80,10 +82,10 @@ abstract class Jelly_Core_Field_Timestamp extends Jelly_Field
 
 	/**
 	 * Automatically creates or updates the time and
-	 * converts it, if necessary
+	 * converts it, if necessary.
 	 *
-	 * @param   Jelly  $model
-	 * @param   mixed  $value
+	 * @param   Jelly  model
+	 * @param   mixed  value
 	 * @return  mixed
 	 */
 	public function save($model, $value, $loaded)
@@ -111,4 +113,5 @@ abstract class Jelly_Core_Field_Timestamp extends Jelly_Field
 
 		return $value;
 	}
-}
+
+} // End Jelly_Core_Field_Timestamp

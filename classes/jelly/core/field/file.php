@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles file uploads.
  *
@@ -10,34 +9,37 @@
  * 
  * As such, these 
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_Supports_Save
-{
+abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_Supports_Save {
+
 	/**
-	 * @var  boolean  Whether or not to delete the old file when a new file is added
+	 * @var  boolean  whether or not to delete the old file when a new file is added
 	 */
 	public $delete_old_file = TRUE;
 	
 	/**
-	 * @var  string  The path to save the file in
+	 * @var  string  the path to save the file in
 	 */
 	public $path = NULL;
 	
 	/**
-	 * @var  array  Valid types for the file
+	 * @var  array  valid types for the file
 	 */
 	public $types = array();
 
 	/**
-	 * @var  string  The filename that will be saved
+	 * @var  string  the filename that will be saved
 	 */
 	protected $_filename;
 	
 	/**
-	 * Ensures there is a path for saving set
+	 * Ensures there is a path for saving set.
 	 *
-	 * @param  array  $options
+	 * @param  array  options
 	 */
 	public function __construct($options = array())
 	{
@@ -47,7 +49,7 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	}
 
 	/**
-	 * Adds a rule that uploads the file
+	 * Adds a rule that uploads the file.
 	 *
 	 */
 	public function initialize($model, $column)
@@ -61,9 +63,9 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	/**
 	 * Implementation for Jelly_Field_Supports_Save.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
-	 * @param   boolean      $key
+	 * @param   Jelly_Model  model
+	 * @param   mixed        value
+	 * @param   boolean      key
 	 * @return  void
 	 */
 	public function save($model, $value, $loaded)
@@ -75,10 +77,10 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	 * Logic to deal with uploading the image file and generating thumbnails according to
 	 * what has been specified in the $thumbnails array.
 	 *
-	 * @param   Validation  $validation
-	 * @param   Jelly_Model      $model
-	 * @param   string           $field
-	 * @return  string|NULL
+	 * @param   Validation   validation
+	 * @param   Jelly_Model  model
+	 * @param   string       field
+	 * @return  string | NULL
 	 */
 	public function _upload(Validation $validation, $model, $field)
 	{
@@ -144,8 +146,8 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	 *
 	 * (pulled out into a method so that it can be reused easily by image subclass)
 	 *
-	 * @param  $path
-	 * @return string The path - making sure it has a trailing slash
+	 * @param   path
+	 * @return  string  the path - making sure it has a trailing slash
 	 */
 	protected function _check_path($path)
 	{
@@ -168,8 +170,8 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 	/**
 	 * Deletes the previously used file if necessary.
 	 *
-	 * @param   string $filename 
-	 * @param   string $path 
+	 * @param   string  filename
+	 * @param   string  path
 	 * @return  void
 	 */
 	protected function _delete_old_file($filename, $path)
@@ -185,4 +187,5 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_
 			}
 		}
 	}
-}
+
+} // End Jelly_Core_Field_File

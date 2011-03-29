@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles strings.
  * 
@@ -7,25 +6,28 @@
  * it is generally redundant to have NULLs be allowed when empty strings
  * will suffice. 
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_String extends Jelly_Field
-{
+abstract class Jelly_Core_Field_String extends Jelly_Field {
+
 	/**
-	 * @var  string  Default value is a string, since we null is FALSE
+	 * @var  string  default value is a string, since we null is FALSE
 	 */
 	public $default = '';
 	
 	/**
-	 * @var  boolean  Do not allow null values by default
+	 * @var  boolean  do not allow null values by default
 	 */
 	public $allow_null = FALSE;
 	
 	/**
-	 * Casts to a string, preserving NULLs along the way
+	 * Casts to a string, preserving NULLs along the way.
 	 *
-	 * @param  mixed   $value
-	 * @return string
+	 * @param   mixed   value
+	 * @return  string
 	 */
 	public function set($value)
 	{
@@ -38,4 +40,5 @@ abstract class Jelly_Core_Field_String extends Jelly_Field
 		
 		return $value;
 	}
-}
+
+} // Jelly_Core_Field_String

@@ -1,26 +1,28 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles primary keys.
  *
  * Currently, a primary key can be an integer or a string.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_Primary extends Jelly_Field
-{
+abstract class Jelly_Core_Field_Primary extends Jelly_Field {
+
 	/**
-	 * @var  boolean  Defaults primary keys to primary
+	 * @var  boolean  defaults primary keys to primary
 	 */
 	public $primary = TRUE;
 	
 	/**
-	 * @var  boolean  Default to converting empty values to NULL so keys are auto-incremented properly
+	 * @var  boolean  default to converting empty values to NULL so keys are auto-incremented properly
 	 */
 	public $allow_null = TRUE;
 	
 	/**
-	 * @var  int  Default is NULL
+	 * @var  int  default is NULL
 	 */
 	public $default = NULL;
 	
@@ -28,7 +30,7 @@ abstract class Jelly_Core_Field_Primary extends Jelly_Field
 	 * Ensures allow_null is not set to FALSE on the field, as it prevents 
 	 * proper auto-incrementing of a primary key.
 	 *
-	 * @param   array  $options 
+	 * @param   array  options
 	 */
 	public function __construct($options = array())
 	{
@@ -43,10 +45,10 @@ abstract class Jelly_Core_Field_Primary extends Jelly_Field
 	}
 
 	/**
-	 * Converts numeric IDs to ints
+	 * Converts numeric IDs to ints.
 	 *
-	 * @param   mixed  $value
-	 * @return  int|string
+	 * @param   mixed  value
+	 * @return  int | string
 	 */
 	public function set($value)
 	{
@@ -60,4 +62,5 @@ abstract class Jelly_Core_Field_Primary extends Jelly_Field
 		
 		return $value;
 	}
-}
+
+} // End Jelly_Core_Field_Primary

@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles image uploads and optionally creates thumbnails of different sizes from the uploaded image
  * (as specified by the $thumbnails array).
@@ -26,13 +25,15 @@
  *         ),
  *     )
  *
- * @see      Image::resize
- * @see      Image::crop
- * @author   Kelvin Luck
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger, Kelvin Luck
+ * @copyright  (c) 2010-2011 Jonathan Geiger, Kelvin Luck
+ * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @see        Image::resize
+ * @see        Image::crop
  */
-abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File
-{
+abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File {
+
 	protected static $defaults = array(
 		// The path to save to
 		'path'   => NULL, 
@@ -45,28 +46,28 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File
 	);
 	
 	/**
-	 * @var  array  Specifications for all of the thumbnails that should be automatically generated when a new image is uploaded.
+	 * @var  array  specifications for all of the thumbnails that should be automatically generated when a new image is uploaded.
 	 *  
 	 */
 	public $thumbnails = array();
 	
 	/**
-	 * @var  array  Allowed file types
+	 * @var  array  allowed file types
 	 */
 	public $types = array('jpg', 'gif', 'png', 'jpeg');
 
 	/**
 	 * Ensures there we have validation rules restricting file types to valid image filetypes and
-	 * that the paths for any thumbnails exist and are writable
+	 * that the paths for any thumbnails exist and are writable.
 	 *
-	 * @param  array  $options
+	 * @param  array  options
 	 */
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
 		// Check that all thumbnail directories are writable...
-		foreach ($this->thumbnails as $key => $thumbnail) 
+		foreach($this->thumbnails as $key => $thumbnail)
 		{
 			// Merge defaults to prevent array access errors down the line
 			$thumbnail += Jelly_Field_Image::$defaults;
@@ -83,10 +84,10 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File
 	 * Logic to deal with uploading the image file and generating thumbnails according to
 	 * what has been specified in the $thumbnails array.
 	 *
-	 * @param   Validation  $validation
-	 * @param   Jelly_Model      $model
-	 * @param   string           $field
-	 * @return  string|NULL
+	 * @param   Validation   validation
+	 * @param   Jelly_Model  model
+	 * @param   string       field
+	 * @return  string | NULL
 	 */
 	public function _upload(Validation $validation, $model, $field)
 	{
@@ -102,7 +103,7 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File
 			$filename = $this->_filename;
 			$source   = $this->path.$filename;
 			
-			foreach ($this->thumbnails as $thumbnail)
+			foreach($this->thumbnails as $thumbnail)
 			{
 				$dest = $thumbnail['path'].$filename;
 				
@@ -127,4 +128,5 @@ abstract class Jelly_Core_Field_Image extends Jelly_Core_Field_File
 			}
 		}
 	}
-}
+
+} // End Jelly_Core_Field_Image

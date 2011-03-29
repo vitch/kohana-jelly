@@ -6,52 +6,55 @@
  * With many-to-many relationships there is a "through" table that
  * connects the two models. 
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_Field_Supports_AddRemove, Jelly_Field_Supports_Has
-{
+abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_Field_Supports_AddRemove, Jelly_Field_Supports_Has {
+
 	/**
-	 * @var  boolean  False, since this field does not map directly to a column
+	 * @var  boolean  false, since this field does not map directly to a column
 	 */
 	public $in_db = FALSE;
 	
 	/**
-	 * @var  boolean  Null values are not allowed since an empty array expresses no relationships
+	 * @var  boolean  null values are not allowed since an empty array expresses no relationships
 	 */
 	public $allow_null = FALSE;
 	
 	/**
-	 * @var  array  Default is an empty array
+	 * @var  array  default is an empty array
 	 */
 	public $default = array();
 	
 	/**
-	 * @var  string  A string containing the name of the model and (optionally) 
+	 * @var  string  a string containing the name of the model and (optionally)
 	 *               the field of the model we're connecting.
 	 */
 	public $foreign = '';
 	
 	/**
-	 * @var mixed  A string or array that references the through table and 
+	 * @var mixed  a string or array that references the through table and
 	 *             fields we're using to connect the two models.
 	 */
 	public $through = '';
 	
 	/**
-	 * @var  boolean  Empty values are converted by default
+	 * @var  boolean  empty values are converted by default
 	 */
 	public $convert_empty = TRUE;
 	
 	/**
-	 * @var  int  Empty values are converted to array(), not NULL
+	 * @var  int  empty values are converted to array(), not NULL
 	 */
 	public $empty_value = array();
 	
 	/**
 	 * Sets up foreign and through properly.
 	 *
-	 * @param   string  $model
-	 * @param   string  $column
+	 * @param   string  model
+	 * @param   string  column
 	 * @return  void
 	 */
 	public function initialize($model, $column)
@@ -105,7 +108,7 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 	/**
 	 * Sets a value on the field.
 	 *
-	 * @param   mixed  $value
+	 * @param   mixed  value
 	 * @return  array
 	 */
 	public function set($value)
@@ -123,8 +126,8 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 	/**
 	 * Returns a Jelly_Builder that can be selected, updated, or deleted.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
+	 * @param   Jelly_Model    model
+	 * @param   mixed          value
 	 * @return  Jelly_Builder
 	 */
 	public function get($model, $value)
@@ -142,9 +145,9 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 	/**
 	 * Implementation for Jelly_Field_Supports_Save.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
-	 * @param   boolean      $key
+	 * @param   Jelly_Model  model
+	 * @param   mixed        value
+	 * @param   boolean      key
 	 * @return  void
 	 */
 	public function save($model, $value, $loaded)
@@ -180,8 +183,8 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 	/**
 	 * Implementation of Jelly_Field_Supports_Has.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $models
+	 * @param   Jelly_Model  model
+	 * @param   mixed        models
 	 * @return  boolean
 	 */
 	public function has($model, $models)
@@ -211,10 +214,10 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 	
 	/**
 	 * Returns either an array or unexecuted query to find
-	 * which columns the model is "in" in the join table
+	 * which columns the model is "in" in the join table.
 	 *
-	 * @param   Jelly    $model
-	 * @param   boolean  $as_array
+	 * @param   Jelly    model
+	 * @param   boolean  as_array
 	 * @return  mixed
 	 */
 	protected function _in($model, $as_array = FALSE)
@@ -232,4 +235,5 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 
 		return $result;
 	}
-}
+
+} // End Jelly_Core_Field_ManyToMany

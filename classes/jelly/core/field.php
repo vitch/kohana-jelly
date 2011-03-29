@@ -1,14 +1,16 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Core class that all fields must extend.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field
-{
+abstract class Jelly_Core_Field {
+
 	/**
-	 * Constants for checking field support
+	 * Constants for checking field support.
 	 */
 	const SAVE       = 'save';
 	const HAS        = 'has';
@@ -17,73 +19,72 @@ abstract class Jelly_Core_Field
 	const JOIN       = 'join';
 	
 	/**
-	 * @var  string  The model's name
+	 * @var  string  the model's name
 	 */
 	public $model;
 
 	/**
-	 * @var  string  The column's name in the database
+	 * @var  string  the column's name in the database
 	 */
 	public $column;
 
 	/**
-	 * @var  string  A pretty name for the field
+	 * @var  string  a pretty name for the field
 	 */
 	public $label;
 
 	/**
-	 * @var  string  The field's name in the form
+	 * @var  string  the field's name in the form
 	 */
 	public $name;
 
 	/**
-	 * @var  boolean  Whether or not the field should be unique
+	 * @var  boolean  whether or not the field should be unique
 	 */
 	public $unique = FALSE;
 
 	/**
-	* @var  boolean  A primary key field.
+	* @var  boolean  a primary key field.
 	*/
 	public $primary = FALSE;
 
 	/**
-	* @var  boolean  The column is present in the database table. Default: TRUE
+	* @var  boolean  the column is present in the database table. Default: TRUE
 	*/
 	public $in_db = TRUE;
 
 	/**
-	* @var  mixed  Default value
+	* @var  mixed  default value
 	*/
 	public $default = NULL;
 
 	/**
-	 * @var  boolean  Whether or not empty() values should be converted to NULL
+	 * @var  boolean  whether or not empty() values should be converted to NULL
 	 */
 	public $convert_empty = FALSE;
 	
 	/**
-	 * @var  mixed   The value to convert empty values to. This is only used if convert_empty is TRUE
+	 * @var  mixed  the value to convert empty values to. This is only used if convert_empty is TRUE
 	 */
 	public $empty_value = NULL;
 	
 	/**
-	 * @var  boolean  Whether or not NULL values are allowed
+	 * @var  boolean  whether or not NULL values are allowed
 	 */
 	public $allow_null = TRUE;
 
 	/**
-	* @var  array  {@link Jelly_Validator} filters for this field.
-	*              Filters are called whenever data is set on the field.
+	* @var  array  filters are called whenever data is set on the field
 	*/
 	public $filters = array();
 
 	/**
-	* @var  array  {@link Jelly_Validator} rules for this field.
+	* @var  array  rules for this field
 	*/
 	public $rules = array();
 
 	/**
-	 * Sets all options
+	 * Sets all options.
 	 *
 	 * @return  void
 	 **/
@@ -110,14 +111,14 @@ abstract class Jelly_Core_Field
 		}
 
 		// Default value is going to be NULL if null is true
-		// to mimic the SQL defaults
+		// to mimic the SQL defaults.
 		if ( ! array_key_exists('default', (array) $options) AND $this->allow_null)
 		{
 			$this->default = NULL;
 		}
 
 		// Default the empty value to NULL when allow_null is TRUE, but be careful not
-		// to override a programmer-configured empty_value
+		// to override a programmer-configured empty_value.
 		if ( ! empty($options['allow_null']) AND ! array_key_exists('empty_value', (array) $options))
 		{
 			$this->empty_value = NULL;
@@ -128,8 +129,8 @@ abstract class Jelly_Core_Field
 	 * This is called after construction so that fields can finish
 	 * constructing themselves with a copy of the column it represents.
 	 *
-	 * @param   string  $model
-	 * @param   string  $column
+	 * @param   string  model
+	 * @param   string  column
 	 * @return  void
 	 **/
 	public function initialize($model, $column)
@@ -163,7 +164,7 @@ abstract class Jelly_Core_Field
 	 * Sets a particular value processed according
 	 * to the class's standards.
 	 *
-	 * @param   mixed  $value
+	 * @param   mixed  value
 	 * @return  mixed
 	 **/
 	public function set($value)
@@ -177,8 +178,8 @@ abstract class Jelly_Core_Field
 	 * Returns a particular value processed according
 	 * to the class's standards.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
+	 * @param   Jelly_Model  model
+	 * @param   mixed        value
 	 * @return  mixed
 	 **/
 	public function get($model, $value)
@@ -192,9 +193,9 @@ abstract class Jelly_Core_Field
 	 * If $in_db, it is expected to return a value suitable for insertion
 	 * into the database.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
-	 * @param   bool         $loaded
+	 * @param   Jelly_Model  model
+	 * @param   mixed        value
+	 * @param   bool         loaded
 	 * @return  mixed
 	 */
 	public function save($model, $value, $loaded)
@@ -212,8 +213,8 @@ abstract class Jelly_Core_Field
 	 * is deleted, and is not called at all if a model behavior stops 
 	 * the actual deletion of the record.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $key
+	 * @param   Jelly_Model  model
+	 * @param   mixed        key
 	 * @return  void
 	 */
 	public function delete($model, $key)
@@ -257,8 +258,8 @@ abstract class Jelly_Core_Field
 	/**
 	 * Callback for validating that a field is unique.
 	 *
-	 * @param   Validation $data
-	 * @param   string $field
+	 * @param   Validation  data
+	 * @param   string      field
 	 * @return  void
 	 */
 	public function _is_unique(Validation $data, Jelly_Model $model, $value, $key)
@@ -289,7 +290,7 @@ abstract class Jelly_Core_Field
 	 * as to whether the field should return the value provided or
 	 * continue processing it.
 	 *
-	 * @param   mixed  $value 
+	 * @param   mixed  value
 	 * @return  array
 	 */
 	protected function _default($value)
@@ -314,9 +315,9 @@ abstract class Jelly_Core_Field
 	}
 
 	/**
-	 * Converts a bunch of types to an array of ids
+	 * Converts a bunch of types to an array of ids.
 	 *
-	 * @param   mixed  $models
+	 * @param   mixed  models
 	 * @return  array
 	 */
 	protected function _ids($models)
@@ -359,4 +360,5 @@ abstract class Jelly_Core_Field
 
 		return $ids;
 	}
-}
+
+} // End Jelly_Core_Field

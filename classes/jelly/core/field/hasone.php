@@ -1,45 +1,47 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles has one relationships.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Field_Supports_With, Jelly_Field_Supports_Save
-{
+abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Field_Supports_With, Jelly_Field_Supports_Save {
+
 	/**
-	 * @var  boolean  False, since this field does not map directly to a column
+	 * @var  boolean  Ffalse, since this field does not map directly to a column
 	 */
 	public $in_db = FALSE;
 	
 	/**
-	 * @var  boolean  Null values are not allowed since an empty array expresses no relationships
+	 * @var  boolean  null values are not allowed since an empty array expresses no relationships
 	 */
 	public $allow_null = FALSE;
 	
 	/**
-	 * @var  array  Default is an empty array
+	 * @var  array  default is an empty array
 	 */
 	public $default = 0;
 	
 	/**
-	 * @var  array  The default to set on foreign fields when removing the relationship
+	 * @var  array  the default to set on foreign fields when removing the relationship
 	 */
 	public $foreign_default = 0;
 	
 	/**
-	 * @var  string  A string pointing to the foreign model and (optionally, a
+	 * @var  string  a string pointing to the foreign model and (optionally, a
 	 *               field, column, or meta-alias). 
 	 */
 	public $foreign = '';
 	
 	/**
-	 * @var  boolean  Empty values are converted by default
+	 * @var  boolean  empty values are converted by default
 	 */
 	public $convert_empty = TRUE;
 	
 	/**
-	 * @var  int  Empty values are converted to 0, not NULL
+	 * @var  int  empty values are converted to 0, not NULL
 	 */
 	public $empty_value = 0;
 	
@@ -47,8 +49,8 @@ abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Fiel
 	 * Determines the actual foreign model and field that the 
 	 * relationship is tied to.
 	 *
-	 * @param   string  $model
-	 * @param   string  $column
+	 * @param   string  model
+	 * @param   string  column
 	 * @return  void
 	 */
 	public function initialize($model, $column)
@@ -72,9 +74,9 @@ abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Fiel
 	}
 	
 	/**
-	 * Sets a relationship on the field
+	 * Sets a relationship on the field.
 	 * 
-	 * @param   mixed  $value
+	 * @param   mixed  value
 	 * @return  mixed
 	 */
 	public function set($value)
@@ -96,10 +98,10 @@ abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Fiel
 	}
 
 	/**
-	 * Returns the record that the model has
+	 * Returns the record that the model has.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
+	 * @param   Jelly_Model  model
+	 * @param   mixed        value
 	 * @return  mixed
 	 */
 	public function get($model, $value)
@@ -121,9 +123,9 @@ abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Fiel
 	/**
 	 * Implementation of Jelly_Field_Supports_Save.
 	 *
-	 * @param   Jelly_Model  $model
-	 * @param   mixed        $value
-	 * @param   boolean      $loaded
+	 * @param   Jelly_Model  model
+	 * @param   mixed        value
+	 * @param   boolean      loaded
 	 * @return  void
 	 */
 	public function save($model, $value, $loaded)
@@ -151,11 +153,12 @@ abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Fiel
 	/**
 	 * Implementation of Jelly_Field_Supports_With.
 	 *
-	 * @param   Jelly_Builder  $builder
+	 * @param   Jelly_Builder  builder
 	 * @return  void
 	 */
 	public function with($builder)
 	{
 		$builder->join(':'.$this->name, 'LEFT')->on($this->model.'.:primary_key', '=', ':'.$this->name.'.'.$this->foreign['field']);
 	}
-}
+
+} // End Jelly_Core_Field_HasOne

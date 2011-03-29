@@ -1,24 +1,26 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
  * Handles enumerated lists.
  *
  * A choices property is required, which is an array of valid options. If you
  * attempt to set a value that isn't a valid choice, the default will be used.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_Enum extends Jelly_Field_String
-{
+abstract class Jelly_Core_Field_Enum extends Jelly_Field_String {
+
 	/**
 	 * @var array An array of valid choices
 	 */
 	public $choices = array();
 
 	/**
-	 * Ensures there is a choices array set
+	 * Ensures there is a choices array set.
 	 *
-	 * @param  array $options
+	 * @param  array  options
 	 */
 	public function __construct($options = array())
 	{
@@ -59,4 +61,5 @@ abstract class Jelly_Core_Field_Enum extends Jelly_Field_String
 		// Add a rule to validate that the value is proper
 		$this->rules[] = array('array_key_exists', array(':value', $this->choices));
 	}
-}
+
+} // End Jelly_Core_Field_Enum
