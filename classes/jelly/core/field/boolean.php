@@ -60,7 +60,7 @@ abstract class Jelly_Core_Field_Boolean extends Jelly_Field
 			$value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
 		}
 		
-		return $value;
+		return ($value) ? $this->true : $this->false;
 	}
 
 	/**
