@@ -15,6 +15,11 @@
 abstract class Jelly_Core_Field_Slug extends Jelly_Field_String {
 
 	/**
+	 * @var  string  separator value in slug
+	 */
+	public $separator = '-';
+
+	/**
 	 * Converts a slug to value valid for a URL.
 	 *
 	 * @param   mixed  value
@@ -27,13 +32,13 @@ abstract class Jelly_Core_Field_Slug extends Jelly_Field_String {
 		if ( ! $return)
 		{
 			// Only allow dashes, and lowercase letters
-			$value = preg_replace('/[^a-z0-9-]/', '-', strtolower($value));
+			$value = preg_replace('/[^a-z0-9-]/', $this->separator, strtolower($value));
 
 			// Strip multiple dashes
-			$value = preg_replace('/-{2,}/', '-', $value);
+			$value = preg_replace('/-{2,}/', $this->separator, $value);
 
 			// Trim an ending or starting dashes
-			$value = trim($value, '-');
+			$value = trim($value, $this->separator);
 		}
 
 		return $value;
