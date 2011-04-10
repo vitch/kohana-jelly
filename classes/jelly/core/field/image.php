@@ -44,9 +44,7 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 	 */
 	protected static $defaults = array(
 		// The path to save to
-		'path'   => NULL,
-		// Prefix for thumbnails
-		'prefix'   => NULL,
+		'path'   => NULL, 
 		 // An array to pass to resize(). e.g. array($width, $height, Image::AUTO)
 		'resize' => NULL,
 		// An array to pass to crop(). e.g. array($width, $height, $offset_x, $offset_y)
@@ -87,20 +85,9 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 			// Merge defaults to prevent array access errors down the line
 			$thumbnail += Jelly_Field_Image::$defaults;
 			
-			// Ensure the path is normalized and writable if set
-			if ($thumbnail['path'])
-			{
-				$thumbnail['path'] = $this->_check_path($thumbnail['path']);
-			}
-
-			// If no prefix is set but the thumbnail path is the same as the original path throw exception
-			if (($thumbnail['path'] === $this->path OR ! $thumbnail['path']) AND ! $thumbnail['prefix'])
-			{
-				throw new Kohana_Exception(':class must have a different `path` or a `prefix` property for thumbnails', array(
-					':class' => get_class($this),
-				));
-			}
-
+			// Ensure the path is normalized and writable
+			$thumbnail['path'] = $this->_check_path($thumbnail['path']);
+			
 			// Merge back in
 			$this->thumbnails[$key] = $thumbnail;
 		}
@@ -164,23 +151,11 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 		{
 			foreach ($this->thumbnails as $thumbnail)
 			{
-				// Set the destination path
-				if ($thumbnail['path'])
-				{
-					// Use thumbnail path if given
-					$destination = $thumbnail['path'];
-				}
-				else
-				{
-					// Use original image path
-					$destination = $this->path;
-				}
+				// Set the destination
+				$destination = $thumbnail['path'].$filename;
 
 				// Delete old file if necessary
-				$this->_delete_old_file($thumbnail['prefix'].$model->original($field), $destination);
-
-				// Add filename to destination
-				$destination .= $thumbnail['prefix'].$filename;
+				$this->_delete_old_file($model->original($field), $thumbnail['path']);
 
 				// Resize and crop images
 				$this->_refactor($source, $thumbnail['driver'], $thumbnail, $destination, $thumbnail['quality']);
