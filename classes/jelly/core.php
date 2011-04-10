@@ -125,7 +125,7 @@ abstract class Jelly_Core
 	 * @param   mixed  $options
 	 * @return  Jelly_Behavior
 	 */
-	public static function behavior($type, $options = NULL)
+	public static function behavior($type, $options = array())
 	{
 		$behavior = Jelly::$_behavior_prefix.$type;
 		
