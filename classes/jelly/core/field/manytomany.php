@@ -201,6 +201,10 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 		
 		$ids = $this->_ids($models);
 
+		// If ids is an empty array then the supplied models were invalid
+		if (empty($ids))
+			return FALSE;
+
 		foreach ($ids as $id)
 		{
 			if ( ! in_array($id, $in))
