@@ -4,10 +4,14 @@
  * uploaded image (as specified by the $thumbnails array).
  *
  * The original image can be refactored, just like the way each thumbnail is specified as an array with the following
- * properties: path, resize, crop, quality and driver.
+ * properties: path, prefix, resize, crop, quality and driver.
+ *
+ * In addition any other image refactoring method can be set like this:
+ * 'method_name' => array('arg1', 'arg2'), for example 'sharpen' => array(20)
  *
  * 
  *  path: the only required property. It must point to a valid, writable directory.
+ *  prefix: a thumbnail only property. If set the filename of the thumbnail will be prefixed with the value.
  *  resize: the arguments to pass to Image->resize(). See the documentation for that method for more info.
  *  crop: is the arguments to pass to Image->crop(). See the documentation for that method for more info.
  *  quality: the desired quality of the saved image between 0 and 100.
@@ -17,7 +21,8 @@
  *     "thumbnails" => array (
  *         // 1st thumbnail
  *         array(
- *             'path'   => 'upload/images/thumbs/',    // where to save the thumbnails
+ *             'path'   => 'upload/images/thumbs/',       // where to save the thumbnails, if not set the original image's path will be used
+ * 			   'prefix' => 'thumb_',					  // prefix for the thumbnail filename
  *             'resize' => array(500, 500, Image::AUTO),  // width, height, master dimension
  *             'crop'   => array(100, 100, NULL, NULL),   // width, height, offset_x, offset_y
  *             'quality' => 100,        				  // desired quality of the saved image, default 100
@@ -44,7 +49,9 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 	 */
 	protected static $defaults = array(
 		// The path to save to
-		'path'   => NULL, 
+		'path'   => NULL,
+		// Prefix for thumbnails
+		'prefix'   => NULL,
 		 // An array to pass to resize(). e.g. array($width, $height, Image::AUTO)
 		'resize' => NULL,
 		// An array to pass to crop(). e.g. array($width, $height, $offset_x, $offset_y)
@@ -85,9 +92,20 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 			// Merge defaults to prevent array access errors down the line
 			$thumbnail += Jelly_Field_Image::$defaults;
 			
-			// Ensure the path is normalized and writable
-			$thumbnail['path'] = $this->_check_path($thumbnail['path']);
-			
+			// Ensure the path is normalized and writable if set
+			if ($thumbnail['path'])
+			{
+				$thumbnail['path'] = $this->_check_path($thumbnail['path']);
+			}
+
+			// If no prefix is set but the thumbnail path is the same as the original path throw exception
+			if ( ! $thumbnail['prefix'] AND ($thumbnail['path'] === $this->path OR ! $thumbnail['path']))
+			{
+				throw new Kohana_Exception(':class must have a different `path` or a `prefix` property for thumbnails', array(
+					':class' => get_class($this),
+				));
+			}
+
 			// Merge back in
 			$this->thumbnails[$key] = $thumbnail;
 		}
@@ -151,11 +169,23 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 		{
 			foreach ($this->thumbnails as $thumbnail)
 			{
-				// Set the destination
-				$destination = $thumbnail['path'].$filename;
+				// Set the destination path
+				if ($thumbnail['path'])
+				{
+					// Use thumbnail path if given
+					$destination = $thumbnail['path'];
+				}
+				else
+				{
+					// Use original image path
+					$destination = $this->path;
+				}
 
 				// Delete old file if necessary
-				$this->_delete_old_file($model->original($field), $thumbnail['path']);
+				$this->_delete_old_file($thumbnail['prefix'].$model->original($field), $destination);
+
+				// Add filename to destination
+				$destination .= $thumbnail['prefix'].$filename;
 
 				// Resize and crop images
 				$this->_refactor($source, $thumbnail['driver'], $thumbnail, $destination, $thumbnail['quality']);
@@ -175,12 +205,6 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 	 */
 	protected function _refactor($source, $driver, $methods, $destination = NULL, $quality = NULL)
 	{
-		// If quality is NULL set it to the default value
-		if ($quality === NULL)
-		{
-			$quality = Jelly_Field_Image::$defaults['quality'];
-		}
-
 		// Let the Image class do its thing
 		$image = Image::factory($source, $driver ? $driver : Image::$default_driver);
 
@@ -188,7 +212,7 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 		// and crop in the order specifed by the config array.
 		foreach ($methods as $method => $args)
 		{
-			if (($method === 'resize' OR $method === 'crop') AND $args)
+			if (($method === 'resize' OR $method === 'crop' OR $method === 'rotate' OR $method === 'flip' OR $method === 'sharpen' OR $method === 'reflection' OR $method === 'watermark' OR $method === 'background') AND $args)
 			{
 				call_user_func_array(array($image, $method), $args);
 			}
