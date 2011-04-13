@@ -16,7 +16,7 @@
  *
  * @package  Jelly
  */
-abstract class Jelly_Core_Builder extends Kohana_Database_Query_Builder_Select
+abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 {
 	/**
 	 * @var  string  The inital model used to construct the builder
