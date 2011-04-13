@@ -5,14 +5,12 @@ IMPORTANT
 
 The included Auth driver is the official [Kohana ORM](https://github.com/kohana/orm) Auth driver modified for Jelly.
 
-
-Critical to know:
+**Critical to know**:
 
 * use the default, `3.1/develop` branch
 * userguide is being updated
 
-
-Useful stuff:
+**Useful stuff**:
 
  * [Report an issue or feature request](https://github.com/creatoro/kohana-jelly-for-Kohana-3.1/issues)
  * [Run the unit tests](https://github.com/creatoro/jelly-tests-for-Kohana-3.1)
