@@ -78,10 +78,10 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 	 * Logic to deal with uploading the image file and generating thumbnails according to
 	 * what has been specified in the $thumbnails array.
 	 *
-	 * @param   Validation   validation
-	 * @param   Jelly_Model  model
-	 * @param   string       field
-	 * @return  string | NULL
+	 * @param   Validation
+	 * @param   Jelly_Model
+	 * @param   Jelly_Field
+	 * @return  bool
 	 */
 	public function _upload(Validation $validation, $model, $field)
 	{
@@ -98,14 +98,18 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 		if ( ! is_array($file) OR ! Upload::valid($file) OR ! Upload::not_empty($file))
 		{
 			// Add error
-			return $validation->error($field, 'invalid_file');
+			$validation->error($field, 'invalid_file');
+
+			return FALSE;
 		}
 
 		// Check to see if it's a valid type
 		if ($this->types AND ! Upload::type($file, $this->types))
 		{
 			// Add error
-			return $validation->error($field, 'invalid_type');
+			$validation->error($field, 'invalid_type');
+
+			return FALSE;
 		}
 
 		// Sanitize the filename
@@ -138,7 +142,9 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 		else
 		{
 			// Add error
-			return $validation->error($field, 'invalid_file');
+			$validation->error($field, 'invalid_file');
+
+			return FALSE;
 		}
 		
 		return TRUE;
