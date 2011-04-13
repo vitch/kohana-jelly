@@ -16,7 +16,7 @@
  *
  * @package  Jelly
  */
-abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
+abstract class Jelly_Core_Builder extends Kohana_Database_Query_Builder_Select
 {
 	/**
 	 * @var  string  The inital model used to construct the builder
@@ -700,7 +700,7 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 
 		// We'll start with the first one and work our way down
 		$paths = explode(":", $relationship);
-		$origin = $parent = $this->_meta->model();
+		$parent = $this->_meta->model();
 		$chain = '';
 
 		foreach ($paths as $iteration => $path)
@@ -738,13 +738,6 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 					// We select from the field alias rather than the model to allow multiple joins to same model
 					$this->select_column($parent.':'.$field->name.'.'.$alias, $chain.':'.$alias);
 				}
-			}
-
-			//@todo: multiple belongsto
-			if ($parent !== $this->_model)
-			{
-				$this->_model = $parent;
-				$field->model = $origin.':'.$field->model;
 			}
 
 			// Let the field finish the rest
@@ -855,7 +848,7 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 					$field = substr($model, 1);
 					$parent = $this->_model;
 				}
-
+				
 				$alias = $alias ? $alias : $parent.':'.$field;
 				$model = Jelly::meta($parent)->field($field)->foreign['model'];
 				$table = Jelly::meta($model)->table();
