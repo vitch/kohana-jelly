@@ -14,7 +14,7 @@
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Field_File extends Jelly_Field implements	Jelly_Field_Supports_Save {
+abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_Supports_Save {
 
 	/**
 	 * @var  boolean  whether or not to delete the old file when a new file is added

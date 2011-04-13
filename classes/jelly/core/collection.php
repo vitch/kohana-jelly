@@ -16,8 +16,8 @@
  *
  * @package  Jelly
  */
-abstract class Jelly_Core_Collection implements Iterator, Countable, SeekableIterator, ArrayAccess
-{
+abstract class Jelly_Core_Collection implements Iterator, Countable, SeekableIterator, ArrayAccess {
+
 	/**
 	 * @var  Jelly_Meta  The current meta object, based on the model we're returning
 	 */
