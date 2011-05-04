@@ -131,7 +131,7 @@ abstract class Jelly_Core_Model
 			// Auto-load relations
 			if ($value instanceof Jelly_Builder)
 			{
-				$value = $value->select();
+				$value = $value->select($this->_meta->db());
 			}
 
 			$this->_retrieved[$name] = $value;
