@@ -25,6 +25,8 @@
          - [Jelly_Field_Expression](field-types/special/expression)
          - [Jelly_Field_File](field-types/special/file)
          - [Jelly_Field_Image](field-types/special/image)
+      - [Relationship fields](field-types/relationship)
+      - [Custom fields](field-types/custom)
    - [Validation](validation)
    - [Filters](filters)
    - [Understanding Aliases and Meta-Aliases](aliases)
