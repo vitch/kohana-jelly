@@ -1,8 +1,8 @@
 # Getting Started
 
-This is the documentation for Jelly, an ORM for Kohana 3.1.
+This is the documentation for Jelly, an ORM for Kohana 3.1+.
 
-[!!] __Please Note:__ this version of Jelly is a community fork, and it's goal is to ensure the compatibility with the newest Kohana version and fix bugs. It was created, because the [official module](http://github.com/jonathangeiger/kohana-jelly) was not updated recently.
+[!!] __Please Note:__ this version of Jelly is a community fork, and it's goal is to ensure the compatibility with the latest Kohana version and fix bugs. It was created, because the [official module](http://github.com/jonathangeiger/kohana-jelly) was not updated recently.
 
 First off, if you're already feeling lost feel free to ask a question in [the official forums](http://dev.kohanaframework.org/projects/jelly/boards)—we're all very nice and helpful. If you feel better looking at the source, you can always [view the API documentation](../api/Jelly) or [browse the source on Github](https://github.com/creatoro/kohana-jelly-for-Kohana-3.1).
 
