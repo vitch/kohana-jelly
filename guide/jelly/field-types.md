@@ -202,23 +202,35 @@ You must be careful not to pass `NULL` or some other value to this field if you 
 
 #### `Jelly_Field_Image`
 
-Represents an image upload. This behaves almost exactly the same as `Jelly_Field_File` except it allows an unlimited number of resized images to be created from the original.
+Represents an image upload. This behaves almost exactly the same as `Jelly_Field_File` except it allows to transform the original image and create unlimited number of different thumbnails.
 
-Here is an example illustrating the `thumbnails` property. All properties are optional:
+Here is an example where you resize the original image and create a thumbnail.
+
 
 	Jelly::field('image', array(
-		// ...set your other properties...
-		'thumbnails' => array (
+		// where to save the original image
+		'path'			  => 'upload/images/',
+		// transformations for the original image, refer to the Image module on available methods
+		'transformations' => array(
+			'resize' => array(1600, 1600, Image::AUTO),  // width, height, master dimension
+		),
+		// desired quality of the saved image, default 100
+		'quality'		  => 75,
+		// define your thumbnails here, if saving the thumbnail to the original's directory don't forget to set a prefix
+		'thumbnails'      => array (
 			// 1st thumbnail
 			array(
 				// where to save the thumbnail
-				'path'   => DOCROOT.'upload/images/my_thumbs/', 
-				// width, height, resize type
-				'resize' => array(500, 500, Image::AUTO),       
-				// width, height, offset_x, offset_y
-				'crop'   => array(100, 100, NULL, NULL),        
-				// NULL defaults to Image::$default_driver
-				'driver' => 'ImageMagick',                      
+				'path'   => 'upload/images/thumbs/',
+				// prefix for the thumbnail filename
+				'prefix' => 'thumb_',
+				// transformations for the thumbnail, refer to the Image module on available methods
+				'transformations' => array(
+					'resize' => array(500, 500, Image::AUTO),  // width, height, master dimension
+					'crop'   => array(100, 100, NULL, NULL),   // width, height, offset_x, offset_y
+				),
+				// desired quality of the saved thumbnail, default 100
+				'quality' => 50,
 			),
 			// 2nd thumbnail
 			array(
@@ -227,9 +239,12 @@ Here is an example illustrating the `thumbnails` property. All properties are op
 		)
 	));
 	
-[!!] The crop and resize steps will be performed in the order you specify them in the array
+[!!] The transformation steps will be performed in the order you specify them in the array.
 
  * **`path`** — This must point to a valid, writable directory to save the original image to.
+ * **`transformations`** — Transformations for the image, refer to the Image module on available methods.
+ * **`quality`** — desired quality of the saved image between 0 and 100, defaults to 100.
+ * **`driver`** — image driver to use, default is `NULL` which will result in using [Image::$default_driver](../api/Image#property:default_driver)
  * **`delete_old_file`** — Whether or not to delete the old files when a new image is successfully uploaded. Defaults to `FALSE`.
  * **`types`** — Valid file extensions that the file may have. Defaults to allowing JPEGs, GIFs, and PNGs.
 
