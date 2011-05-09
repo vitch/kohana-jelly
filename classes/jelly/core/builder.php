@@ -113,12 +113,33 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 	}
 
 	/**
-	 * Executes the query as a SELECT statement
+	 * Executes the query as a SELECT statement.
 	 *
 	 * @param   string  $db
 	 * @return  Jelly_Collection|Jelly_Model
 	 */
 	public function select($db = NULL)
+	{
+		// Execute the query
+		$this->select_all($db);
+
+		// If the record was limited to 1, we only return that model
+		// Otherwise we return the whole result set.
+		if ($this->_limit === 1)
+		{
+			$this->_result = $this->_result->current();
+		}
+
+		return $this->_result;
+	}
+
+	/**
+	 * Executes the query as a SELECT statement and always returns Jelly_Collection.
+	 *
+	 * @param   string  $db
+	 * @return  Jelly_Collection
+	 */
+	public function select_all($db = NULL)
 	{
 		$db   = $this->_db($db);
 		$meta = $this->_meta;
@@ -152,13 +173,6 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 		if ($meta)
 		{
 			$meta->events()->trigger('builder.after_select', $this);
-		}
-
-		// If the record was limited to 1, we only return that model
-		// Otherwise we return the whole result set.
-		if ($this->_limit === 1)
-		{
-			$this->_result = $this->_result->current();
 		}
 
 		return $this->_result;

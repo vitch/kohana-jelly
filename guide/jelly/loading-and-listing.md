@@ -66,3 +66,21 @@ You can get the database results in an array using the `as_array()` method.
 
 	// Return only the names in an array
 	$data = $posts->as_array(array(NULL, 'name'));
+
+### Returning `Jelly_Collection` regardless to the limit
+
+You might want to return `Jelly_Collection` even if the limit is set to 0. This might be the case when you are iterating
+through the results in a foreach loop even if there's only one result. In this case use can use the `select_all()` method
+which will always return `Jelly_Collection`.
+
+	// Get post limit from url
+	$limit = (int) $this->request->get('limit');
+
+	// Get all posts
+	$posts =  Jelly::query('post')->limit($limit)->select_all();
+
+	// Show all post
+	foreach ($posts as $post)
+	{
+		echo $post->text;
+	}
