@@ -6,7 +6,7 @@ save and delete a record.
 ### Creating and Updating
 
 Both creation and updating is achieved with the `save()` method. Keep in mind
-that `save()` may throw a `Validate_Exception` if your model doesn't validate
+that `save()` may throw a [Jelly_Validation_Exception](../api/Jelly_Validation_Exception) if your model doesn't validate
 according to the rules you specify, so you should always test for this. Having
 said that, we won't here just for clarity.
 

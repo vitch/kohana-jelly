@@ -25,9 +25,9 @@ If you are planning to use the included __Auth driver__ you have to set the cook
 
 The basic operations needed to work with Jelly are:
 
-1.  [Defining models](defining-models)
-2.  [Loading and listing records](loading-and-listing)
-3.  [Creating, updating and deleting records](cud)
+1.  [Defining models](getting-started/defining-models)
+2.  [Loading and listing records](getting-started/loading-and-listing)
+3.  [Creating, updating and deleting records](getting-started/cud)
 4.  [Accessing and managing relationships](relationships)
 
 ## More Advanced Use
@@ -37,4 +37,4 @@ being transparently extendable. The guides below give an overview of some more
 advanced usage.
 
 1.  [Extending the query builder](extending-builder)
-2.  [Defining custom fields](extending-field)
+2.  [Defining custom fields](field-types/custom)

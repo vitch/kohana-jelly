@@ -1,7 +1,8 @@
 ## [Jelly]()
-   - [Defining models](defining-models)
-   - [Loading and listing records](loading-and-listing)
-   - [Creating, updating and deleting records](cud)
+   - Getting started
+      - [Defining models](getting-started/defining-models)
+      - [Loading and listing records](getting-started/loading-and-listing)
+      - [Creating, updating and deleting records](getting-started/cud)
    - [Relationships](relationships)
       - [Jelly_Field_BelongsTo (1:1)](relationships/belongsto)
       - [Jelly_Field_HasMany (1:many)](relationships/hasmany)
@@ -31,5 +32,4 @@
    - [Filters](filters)
    - [Understanding Aliases and Meta-Aliases](aliases)
    - [Extending the query builder](extending-builder)
-   - [Defining custom fields](extending-field)
    - [Upgrading](upgrading)
