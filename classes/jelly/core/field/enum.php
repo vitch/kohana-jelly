@@ -39,23 +39,30 @@ abstract class Jelly_Core_Field_Enum extends Jelly_Field_String {
 			$this->allow_null = TRUE;
 		}
 		// We're allowing NULLs but the value isn't set. Create it so validation won't fail.
-		else if ($this->allow_null)
+		elseif ($this->allow_null)
 		{
 			array_unshift($this->choices, NULL);
 		}
 
 		reset($this->choices);
 
+		// Convert non-associative values to associative ones
+		if ( ! Arr::is_assoc($this->choices))
+		{
+			$this->choices = array_combine($this->choices, $this->choices);
+		}
+
 		// Set the default value from the first choice in the array
 		if ( ! array_key_exists('default', $options))
 		{
 			$this->default = key($this->choices);
-		}
 
-		 // Convert non-associative values to associative ones
-		if ( ! Arr::is_assoc($this->choices))
-		{
-			$this->choices = array_combine($this->choices, $this->choices);
+			// Check if the associated key's value is NULL
+			if ($this->choices[$this->default] === NULL)
+			{
+				// Set the default to NULL instead of using the key which is an empty string for NULL values
+				$this->default = NULL;
+			}
 		}
 
 		// Add a rule to validate that the value is proper
