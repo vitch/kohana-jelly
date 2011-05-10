@@ -49,7 +49,7 @@ abstract class Jelly_Core_Field_Enum extends Jelly_Field_String {
 		// Set the default value from the first choice in the array
 		if ( ! array_key_exists('default', $options))
 		{
-			$this->default = current($this->choices);
+			$this->default = key($this->choices);
 		}
 
 		 // Convert non-associative values to associative ones
