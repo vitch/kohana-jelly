@@ -2,6 +2,8 @@
 
 Represents an image upload. This behaves almost exactly the same as `Jelly_Field_File` except it allows to transform the original image and create unlimited number of different thumbnails.
 
+To make this field required use the `Upload::not_empty` rule instead of the simple `not_empty`.
+
 Here is an example where you resize the original image and create a thumbnail.
 
 
