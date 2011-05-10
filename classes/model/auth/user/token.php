@@ -69,22 +69,39 @@ class Model_Auth_User_Token extends Jelly_Model {
 		return $this;
 	}
 
-	public function save($validation = NULL)
+	/**
+	 * Creates a new token.
+	 *
+	 * @param   array  $data
+	 * @return  Jelly_Model
+	 */
+	public function create_token(array $data)
 	{
-		$this->token = $this->create_token();
-
-		return parent::save($validation);
-	}
-
-	protected function create_token()
-	{
+		// Create the token
 		do
 		{
 			$token = sha1(uniqid(Text::random('alnum', 32), TRUE));
 		}
-		while(Jelly::query('user_token')->where('token', '=', $token)->limit(1)->select()->loaded());
+		while($this->get_token($token)->loaded());
 
-		return $token;
+		// Store token in database
+		return $this->set(array(
+			'user'		 => $data['user_id'],
+			'expires'	 => $data['expires'],
+			'user_agent' => $data['user_agent'],
+			'token'		 => $token,
+		))->save();
+	}
+
+	/**
+	 * Loads a token.
+	 *
+	 * @param   string  $token
+	 * @return  Jelly_Model
+	 */
+	public function get_token($token)
+	{
+		return Jelly::query('user_token')->where('token', '=', $token)->limit(1)->select();
 	}
 
 } // End Auth User Token Model

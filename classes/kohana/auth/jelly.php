@@ -32,10 +32,7 @@ class Kohana_Auth_Jelly extends Auth {
 			if (is_array($role))
 			{
 				// Get all the roles
-				$roles = Jelly::query('role')
-							->where('name', 'IN', $role)
-							->select()
-							->as_array(NULL, 'id');
+				$roles = Jelly::factory('role')->get_role_ids($role);
 
 				// Make sure all the roles are valid ones
 				if (count($roles) !== count($role))
@@ -46,7 +43,7 @@ class Kohana_Auth_Jelly extends Auth {
 				if ( ! is_object($role))
 				{
 					// Load the role
-					$roles = Jelly::query('role')->where('name', '=', $role)->limit(1)->select();
+					$roles = Jelly::factory('role')->get_role($role);
 
 					if ( ! $roles->loaded())
 						return FALSE;
@@ -72,11 +69,11 @@ class Kohana_Auth_Jelly extends Auth {
 			$username = $user;
 
 			// Load the user
-			$user = Jelly::query('user')->where(Jelly::factory('user')->unique_key($username), '=', $username)->limit(1)->select();
+			$user = Jelly::factory('user')->get_user($username);
 		}
 
 		// If the passwords match, perform a login
-		if ($user->has('roles', Jelly::query('role')->where('name', '=', 'login')->limit(1)->select()) AND $user->password === $password)
+		if ($user->has('roles', Jelly::factory('role')->get_role('login')) AND $user->password === $password)
 		{
 			if ($remember === TRUE)
 			{
@@ -88,12 +85,7 @@ class Kohana_Auth_Jelly extends Auth {
 				);
 
 				// Create a new autologin token
-				$token = Jelly::factory('user_token')
-							->set(array(
-					        	'user'		 => $data['user_id'],
-								'expires'	 => $data['expires'],
-								'user_agent' => $data['user_agent'],
-							))->save();
+				$token = Jelly::factory('user_token')->create_token($data);
 
 				// Set the autologin cookie
 				Cookie::set('authautologin', $token->token, $this->_config['lifetime']);
@@ -123,7 +115,7 @@ class Kohana_Auth_Jelly extends Auth {
 			$username = $user;
 
 			// Load the user
-			$user = Jelly::query('user')->where(Jelly::factory('user')->unique_key($username), '=', $username)->limit(1)->select();
+			$user = Jelly::factory('user')->get_user($username);
 		}
 
 		if ($mark_session_as_forced === TRUE)
@@ -146,7 +138,7 @@ class Kohana_Auth_Jelly extends Auth {
 		if ($token = Cookie::get('authautologin'))
 		{
 			// Load the token and user
-			$token = Jelly::query('user_token')->where('token', '=', $token)->limit(1)->select();
+			$token = Jelly::factory('user_token')->get_token($token);
 
 			if ($token->loaded() AND $token->user->loaded())
 			{
@@ -210,11 +202,11 @@ class Kohana_Auth_Jelly extends Auth {
 			Cookie::delete('authautologin');
 
 			// Clear the autologin token from the database
-			$token = Jelly::query('user_token')->where('token', '=', $token)->limit(1)->select();
+			$token = Jelly::factory('user_token')->get_token($token);
 
 			if ($token->loaded() AND $logout_all)
 			{
-				Jelly::query('user', $token->user->id)->select()->get('user_tokens')->delete();
+				Jelly::factory('user')->delete_tokens($token->user->id);
 			}
 			elseif ($token->loaded())
 			{
@@ -238,7 +230,7 @@ class Kohana_Auth_Jelly extends Auth {
 			$username = $user;
 
 			// Load the user
-			$user = Jelly::query('user')->where(Jelly::factory('user')->unique_key($username), '=', $username)->limit(1)->select();
+			$user = Jelly::factory('user')->get_user($username);
 		}
 
 		return $user->password;

@@ -159,4 +159,26 @@ class Model_Auth_User extends Jelly_Model {
 		return $this->set(Arr::extract($values, $expected))->save($extra_validation);
 	}
 
+	/**
+	 * Loads a user based on unique key.
+	 *
+	 * @param   string  $unique_key
+	 * @return  Jelly_Model
+	 */
+	public function get_user($unique_key)
+	{
+		return Jelly::query('user')->where($this->unique_key($unique_key), '=', $unique_key)->limit(1)->select();
+	}
+
+	/**
+	 * Deletes the tokens associated with the user.
+	 *
+	 * @param   int  $user_id
+	 * @return
+	 */
+	public function delete_tokens($user_id)
+	{
+		return Jelly::query('user', $user_id)->select()->get('user_tokens')->delete();
+	}
+
 } // End Auth User Model
