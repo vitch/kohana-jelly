@@ -156,7 +156,7 @@ abstract class Jelly_Core_Field {
 		// some callbacks for shortcut properties
 		if ($this->unique === TRUE)
 		{
-			$this->rules[] = array(array(':field', '_is_unique'), array(':validation', ':model', ':value', ':key'));
+			$this->rules[] = array(array(':field', '_is_unique'), array(':validation', ':model', ':field', ':value'));
 		}
 	}
 
@@ -260,27 +260,26 @@ abstract class Jelly_Core_Field {
 	 *
 	 * @param   Validation   $data
 	 * @param   Jelly_Model  $model
+	 * @param   string       $field
 	 * @param   string       $value
-	 * @param   string       $key
 	 * @return  void
 	 */
-	public function _is_unique(Validation $data, Jelly_Model $model, $value, $key)
+	public function _is_unique(Validation $data, Jelly_Model $model, $field, $value)
 	{
 		// According to the SQL standard NULL is not checked by the unique constraint
 		// We also skip this test if the value is the same as the default value
-		if ($data[$this->name] !== NULL AND $data[$this->name] !== $this->default)
+		if ($value !== NULL AND $value !== $this->default)
 		{
-			$query = Jelly::query($model)->where($this->name, '=', $data[$this->name]);
+			// Build query
+			$query = Jelly::query($model)->where($field, '=', $value);
 
-			// Exclude unique key value from check if this is a lazy save
-			if ($key)
-			{
-				$query->where(':unique_key', '!=', $key);
-			}
+			// Limit to one
+			$query->limit(1);
 
 			if ($query->count())
 			{
-				$data->error($this->name, 'unique');
+				// Add error if duplicate found
+				$data->error($field, 'unique');
 			}
 		}
 	}
