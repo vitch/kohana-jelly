@@ -74,7 +74,20 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 	 */
 	public function save($model, $value, $loaded)
 	{
-		return $this->_filename ? $this->_filename : $value;
+		if ($this->_filename)
+		{
+			return $this->_filename;
+		}
+		else
+		{
+			if (is_array($value) AND empty($value['name']))
+			{
+				// Set value to empty string if nothing is uploaded
+				$value = '';
+			}
+
+			return $value;
+		}
 	}
 
 	/**
@@ -88,6 +101,12 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 	 */
 	public function _upload(Validation $validation, $model, $field)
 	{
+		if ( ! is_array($validation[$field]) OR ! isset($validation[$field]['name']) OR empty($validation[$field]['name']))
+		{
+			// Nothing uploaded
+			return;
+		}
+
 		if ($validation->errors())
 		{
 			// Don't bother uploading
