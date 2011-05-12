@@ -49,6 +49,9 @@ abstract class Jelly_Core_Field_Password extends Jelly_Field_String {
 			// Hash the password
 			return call_user_func($this->hash_with, $password);
 		}
+
+		// Return plain password if no hashing is done
+		return $password;
 	}
 
 } // End Jelly_Core_Field_Password
