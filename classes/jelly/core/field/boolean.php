@@ -75,7 +75,7 @@ abstract class Jelly_Core_Field_Boolean extends Jelly_Field {
 	 */
 	public function save($model, $value, $loaded)
 	{
-		return ($value) ? $this->true : $this->false;
+		return $value;
 	}
 
 } // End Jelly_Core_Field_Boolean
