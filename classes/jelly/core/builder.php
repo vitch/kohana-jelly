@@ -1109,7 +1109,7 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 	 * @param  mixed  $db
 	 * @return Jelly_Meta|string
 	 */
-	protected function _db($db)
+	protected function _db($db = NULL)
 	{
 		// Nothing provided, give 'em something gooood
 		if ($db === NULL)
