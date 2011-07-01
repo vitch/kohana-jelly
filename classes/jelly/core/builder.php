@@ -720,7 +720,7 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 
 		// We'll start with the first one and work our way down
 		$paths = explode(":", $relationship);
-		$parent = $this->_meta->model();
+		$origin = $parent = $this->_meta->model();
 		$chain = '';
 
 		foreach ($paths as $iteration => $path)
@@ -758,6 +758,13 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 					// We select from the field alias rather than the model to allow multiple joins to same model
 					$this->select_column($parent.':'.$field->name.'.'.$alias, $chain.':'.$alias);
 				}
+			}
+
+			if ($parent !== $this->_model)
+			{
+				// Support for multiple with joins
+				$this->_model = $parent;
+				$field->model = $origin.':'.$field->model;
 			}
 
 			// Let the field finish the rest
