@@ -64,9 +64,9 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 	protected $_alias_cache = array();
 
 	/**
-	 * @var  array  Records with-ed fields
+	 * @var  array  With cache
 	 */
-	protected $_with = array();
+	protected $_with_cache = array();
 
 	/**
 	 * Constructs a new Jelly_Builder instance.
@@ -707,7 +707,7 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 	 * It is possible to join a relationship to a join using
 	 * the following syntax:
 	 *
-	 * $post->join("author:role");
+	 * $post->with('author:role');
 	 *
 	 * Assuming a post belongs to an author and an author has one role.
 	 *
@@ -715,24 +715,33 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 	 * been made, so joining a model twice will result in
 	 * a failed query.
 	 *
-	 * @param   string  $relationship
-	 * @return Jelly_Builder
+	 * @param   string         $relationship
+	 * @return  Jelly_Builder
 	 */
 	public function with($relationship)
 	{
 		// Ensure the main model is selected
 		$this->select_column($this->_model.'.*');
 
-		$rel_path = explode(":", $relationship);
+		// Get paths from relationship
+		$paths = explode(":", $relationship);
+
+		// Set parent model
 		$parent_model = $this->_meta->model();
+
+		// Set origin table
 		$origin_table = $this->_meta->table();
-		$rel_chain = '';
 
-		$_with = & $this->_with;
+		// Create an empty chain
+		$chain = '';
 
-		foreach ($rel_path as $iteration => $link)
+		// Reference the with cache
+		$_with = & $this->_with_cache;
+
+		foreach ($paths as $path)
 		{
-			$field = Jelly::meta($parent_model)->field($link);
+			// Load the field from the parent model
+			$field = Jelly::meta($parent_model)->field($path);
 
 			if ( ! $field->supports(Jelly_Field::WITH))
 			{
@@ -742,20 +751,21 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 
 			$model = $field->foreign['model'];
 
-			// Check we haven't already with-ed this field on this query
-			if ( ! isset($_with[$link]))
+			// Check we haven't already joined this field on this query
+			if ( ! isset($_with[$path]))
 			{
 				$meta = Jelly::meta($model);
 
 				// Build the table alias name
-				$table_alias  = $origin_table.$rel_chain.':'.$field->name;
+				$table_alias = $origin_table.$chain.':'.$field->name;
+
 				// Pre-populate the alias cache with the correct relation name.
 				$this->_model_alias(array($model, $table_alias));
 
 				// Pretend to be a different model for the benefit of the foreign field
 				$_model_backup = $this->_model;
 				$field_model_backup = $field->model;
-				$field->model = $this->_model = $origin_table.$rel_chain;
+				$field->model = $this->_model = $origin_table.$chain;
 
 				// Let the field join appropriately
 				$field->with($this);
@@ -765,7 +775,8 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 				$field->model = $field_model_backup;
 
 				// Build the field output alias
-				$field_alias_prefix = $rel_chain.':'.$field->name;
+				$field_alias_prefix = $chain.':'.$field->name;
+
 				// Select all of the model's fields
 				foreach ($meta->fields() as $alias => $select)
 				{
@@ -780,11 +791,13 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 
 			// Model now becomes the parent
 			$parent_model = $model;
-			// relationshipt chain gets a bit longer
-			$rel_chain .= ':'.$link;
+
+			// Add the current path to the relationship chain
+			$chain .= ':'.$path;
+
 			// We sink into this branch of the _with tree
-			$_with[$link] = isset($_with[$link]) ? $_with[$link] : array();
-			$_with = & $_with[$link];
+			$_with[$path] = isset($_with[$path]) ? $_with[$path] : array();
+			$_with = & $_with[$path];
 		}
 
 		return $this;
@@ -1146,4 +1159,5 @@ abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
 
 		return $db;
 	}
+
 } // End Jelly_Core_Builder
