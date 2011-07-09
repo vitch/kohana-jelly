@@ -24,6 +24,8 @@ key of the author that owns the post.
 
 **`empty_value`** — This is the default value that empty values are converted to. The default is `0`.
 
+**`delete_dependent`** — If this value is `TRUE` dependent fields are automatically deleted upon deletion. The default is `FALSE`.
+
 **Using this relationship**
 
 	$author = Jelly::query('author', 1)->select();
