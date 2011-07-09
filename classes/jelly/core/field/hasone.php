@@ -46,11 +46,6 @@ abstract class Jelly_Core_Field_HasOne extends Jelly_Field implements Jelly_Fiel
 	public $empty_value = 0;
 
 	/**
-	 * @var  bool  automatically delete related
-	 */
-	public $auto_delete = FALSE;
-
-	/**
 	 * @var  boolean  dependent fields are automatically deleted if set to TRUE.
 	 */
 	public $delete_dependent = FALSE;
