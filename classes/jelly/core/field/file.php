@@ -37,6 +37,11 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 	protected $_filename;
 
 	/**
+	 * @var  boolean  file is automatically deleted if set to TRUE.
+	 */
+	public $delete_file = FALSE;
+
+	/**
 	 * Ensures there is a path for saving set.
 	 *
 	 * @param  array  $options
@@ -88,6 +93,31 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 
 			return $value;
 		}
+	}
+
+	/**
+	 * Deletes the file if automatic file deletion
+	 * is enabled.
+	 *
+	 * @param   Jelly_Model  $model
+	 * @param   mixed        $key
+	 * @return  void
+	 */
+	public function delete($model, $key)
+	{
+		// Set the field name
+		$field = $this->name;
+
+		// Set file
+		$file = $this->path.$model->$field;
+
+		if ($this->delete_file AND is_file($file))
+		{
+			// Delete file
+			unlink($file);
+		}
+
+		return;
 	}
 
 	/**

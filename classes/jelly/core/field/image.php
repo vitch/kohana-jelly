@@ -115,6 +115,58 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 	}
 
 	/**
+	 * Deletes the image and the thumbnails if automatic file deletion
+	 * is enabled.
+	 *
+	 * @param   Jelly_Model  $model
+	 * @param   mixed        $key
+	 * @return  void
+	 */
+	public function delete($model, $key)
+	{
+		if ( ! $this->delete_file)
+		{
+			// Stop here if automatic deletion is disabled
+			return;
+		}
+
+		// Set the field name
+		$field = $this->name;
+
+		// Set file
+		$file = $this->path.$model->$field;
+
+		if (is_file($file))
+		{
+			// Delete file
+			unlink($file);
+		}
+
+		// Set thumbnails
+		$thumbnails = $model->meta()->field($field)->thumbnails;
+
+		foreach ($thumbnails as $thumbnail)
+		{
+			// Set file name
+			$file = $thumbnail['prefix'].$model->$field;
+
+			if (isset($thumbnail['path']))
+			{
+				// Add path to file name if set
+				$file = $thumbnail['path'].$file;
+			}
+
+			if (is_file($file))
+			{
+				// Delete file
+				unlink($file);
+			}
+		}
+
+		return;
+	}
+
+	/**
 	 * Logic to deal with uploading the image file and generating thumbnails according to
 	 * what has been specified in the $thumbnails array.
 	 *
