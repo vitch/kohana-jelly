@@ -155,6 +155,11 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 				// Add path to file name if set
 				$file = $thumbnail['path'].$file;
 			}
+			else
+			{
+				// Add the path of the original image
+				$file = $this->path.$file;
+			}
 
 			if (is_file($file))
 			{
