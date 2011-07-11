@@ -46,4 +46,26 @@ key of the author that owns the post.
 	$author->posts = NULL;
 	$author->save();
 
+**Retrieving hasmany-hasmany relationships**
+
+For example if an author has many posts that have many comments we can retrieve all the comments that were sent to the author's posts.
+
+The recommended way of doing this is extending the query builder and creating a method to retrieve the comments.
+
+	<?php defined('SYSPATH') or die('No direct script access.');
+
+	class Model_Builder_Comment extends Jelly_Builder {
+
+		public function get_authors_comments($author_id)
+		{
+			return $this->with('post:author')->where(':post:author.id', '=', $author_id);
+		}
+
+	}
+
+From now on you can use this method this way:
+
+	Jelly::query('comment')->get_authors_comments(1)->select();
+
+
 [!!] See `add()`, `remove()`, and `has()` [methods](../jelly/relationships#add-and-remove) for more examples.
