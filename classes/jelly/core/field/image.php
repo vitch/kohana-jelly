@@ -193,18 +193,6 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 		$filename = $this->_filename;
 		$source   = $this->path.$filename;
 
-		// Create the image from the source
-		$original = Image::factory($source, $this->driver);
-
-		if ($this->transformations !== NULL)
-		{
-			// Process image transformations
-			$image = $this->_transform($original, $this->transformations);
-
-			// Save the image
-			$image->save($source, $this->quality);
-		}
-
 		if ($model->changed($field))
 		{
 			// Process thumbnails
@@ -222,12 +210,27 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 				// Delete old file if necessary
 				$this->_delete_old_file($thumbnail['prefix'].$model->original($field), $thumbnail['path']);
 
+				// Set thumb
+				$thumb = Image::factory($source, $this->driver);
+
 				// Process thumbnail transformations
-				$thumb = $this->_transform($original, $thumbnail['transformations']);
+				$thumb = $this->_transform($thumb, $thumbnail['transformations']);
 
 				// Save the thumbnail
 				$thumb->save($destination, $thumbnail['quality']);
 			}
+		}
+
+		if ($this->transformations !== NULL)
+		{
+			// Set image
+			$image = Image::factory($source, $this->driver);
+
+			// Process image transformations
+			$image = $this->_transform($image, $this->transformations);
+
+			// Save the image
+			$image->save($source, $this->quality);
 		}
 
 		return TRUE;
