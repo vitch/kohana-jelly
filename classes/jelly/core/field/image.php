@@ -178,15 +178,15 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 	 * @param   Validation   $validation
 	 * @param   Jelly_Model  $model
 	 * @param   string       $field
-	 * @return  void
+	 * @return  bool
 	 * @uses    Image::factory
 	 */
 	public function _upload(Validation $validation, $model, $field)
 	{
 		if ( ! parent::_upload($validation, $model, $field))
 		{
-			// Save the original untouched
-			return;
+			// Couldn't save the original untouched
+			return FALSE;
 		}
 
 		// Set the filename and the source
@@ -229,6 +229,8 @@ abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
 				$thumb->save($destination, $thumbnail['quality']);
 			}
 		}
+
+		return TRUE;
 	}
 
 	/**

@@ -131,10 +131,13 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 	 */
 	public function _upload(Validation $validation, $model, $field)
 	{
-		if ( ! is_array($validation[$field]) OR ! isset($validation[$field]['name']) OR empty($validation[$field]['name']))
+		// Get the file from the validation object
+		$file = $validation[$field];
+
+		if ( ! is_array($file) OR ! isset($file['name']) OR empty($file['name']))
 		{
 			// Nothing uploaded
-			return;
+			return FALSE;
 		}
 
 		if ($validation->errors())
@@ -143,11 +146,8 @@ abstract class Jelly_Core_Field_File extends Jelly_Field implements Jelly_Field_
 			return FALSE;
 		}
 
-		// Get the image from the validation object
-		$file = $validation[$field];
-
 		// Check if it's a valid file
-		if ( ! is_array($file) OR ! Upload::valid($file) OR ! Upload::not_empty($file))
+		if ( ! Upload::not_empty($file) OR ! Upload::valid($file))
 		{
 			// Add error
 			$validation->error($field, 'invalid_file');
