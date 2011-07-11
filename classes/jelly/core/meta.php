@@ -148,7 +148,7 @@ abstract class Jelly_Core_Meta
 		// Table should be a sensible default
 		if (empty($this->_table))
 		{
-			$this->_table = inflector::plural($model);
+			$this->_table = Inflector::plural($model);
 		}
 
 		// See if we have a special builder class to use
