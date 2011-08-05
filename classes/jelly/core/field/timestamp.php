@@ -56,31 +56,6 @@ abstract class Jelly_Core_Field_Timestamp extends Jelly_Field {
 	}
 
 	/**
-	 * Converts the time to a UNIX timestamp.
-	 *
-	 * @param   mixed  $value
-	 * @return  mixed
-	 */
-	public function set($value)
-	{
-		list($value, $return) = $this->_default($value);
-
-		if ( ! $return)
-		{
-			if (is_numeric($value))
-			{
-				$value = (int) $value;
-			}
-			else if (FALSE !== ($to_time = strtotime($value)))
-			{
-				$value = $to_time;
-			}
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Automatically creates or updates the time and
 	 * converts it, if necessary.
 	 *
@@ -95,6 +70,18 @@ abstract class Jelly_Core_Field_Timestamp extends Jelly_Field {
 		if (( ! $loaded AND $this->auto_now_create) OR ($loaded AND $this->auto_now_update))
 		{
 			$value = time();
+		}
+		else
+		{
+			// Convert to UNIX timestamp
+			if (is_numeric($value))
+			{
+				$value = (int) $value;
+			}
+			elseif (FALSE !== ($to_time = strtotime($value)))
+			{
+				$value = $to_time;
+			}
 		}
 
 		// Convert if necessary
