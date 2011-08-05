@@ -21,6 +21,12 @@ Notice that Jelly depends on Kohana 3.1x's [database module](http://github.com/k
 
 If you are planning to use the included __Auth driver__ you have to set the cookie salt by following [these instructions](../kohana/upgrading#cookie-salts).
 
+## Requirements
+
+Jelly requires the following Kohana versions per [Git](https://github.com/creatoro/kohana-jelly-for-Kohana-3.1) branch:
+
+ - __3.1/develop branch:__ Kohana 3.1.3+
+
 ## Basic Usage
 
 The basic operations needed to work with Jelly are:
