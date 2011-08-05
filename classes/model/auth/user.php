@@ -40,7 +40,6 @@ class Model_Auth_User extends Jelly_Model {
 				'label' => 'password',
 				'rules' => array(
 					array('not_empty'),
-					array('min_length', array(':value', 8)),
 				),
 				'hash_with' => array(Auth::instance(), 'hash'),
 			)),
@@ -150,7 +149,11 @@ class Model_Auth_User extends Jelly_Model {
 	{
 		if (empty($values['password']))
 		{
-			unset($values['password'], $values['password_confirm']);
+			// Find the key of the password in the expected array
+			$expected_password = array_search('password', $expected);
+
+			// Remove password related values
+			unset($values['password'], $values['password_confirm'], $expected[$expected_password]);
 		}
 
 		// Validation for passwords
