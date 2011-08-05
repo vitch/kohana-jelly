@@ -11,6 +11,12 @@ The included Auth driver is the official [Kohana ORM](https://github.com/kohana/
 * use the default, `3.1/develop` branch until a `3.1/master` branch is created
 * userguide is being updated
 
+**Requirements**
+
+Jelly requires the following Kohana versions per Git branch:
+
+* `3.1/develop` branch: Kohana 3.1.3+
+
 **Useful stuff**:
 
  * [Report an issue or feature request](https://github.com/creatoro/kohana-jelly-for-Kohana-3.1/issues)
