@@ -265,10 +265,17 @@ abstract class Jelly_Core_Meta
 	 */
 	protected function set($key, $value)
 	{
-		if ( ! $this->_initialized)
+		if ($this->_initialized)
 		{
-			$this->{'_'.$key} = $value;
+			throw new Kohana_Exception(':class already initialized, cannot set :key to :value', array(
+				':class' => get_class($this),
+				':key'   => $key,
+				':value' => $value,
+			));
 		}
+
+		// Set key's value
+		$this->{'_'.$key} = $value;
 
 		return $this;
 	}
