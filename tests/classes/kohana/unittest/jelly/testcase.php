@@ -15,7 +15,7 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
 		parent::setUpBeforeClass();
 
 		// Load config
-		$config = Kohana::config('database')->default;
+		$config = Kohana::config('database')->{Kohana::config('unittest')->db_connection};
 
 		// Find file
 		$file = Kohana::find_file('tests/test_data/jelly', 'test-schema-'.$config['type'], 'sql');
@@ -73,10 +73,5 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
     {
 		return $this->createXMLDataSet(Kohana::find_file('tests/test_data/jelly', 'test', 'xml'));
     }
-
-	public static function tearDownAfterClass()
-	{
-		//echo View::factory('profiler/stats')->render();
-	}
 
 } // End Kohana_Unittest_Jelly_TestCase
