@@ -33,3 +33,4 @@
    - [Understanding Aliases and Meta-Aliases](aliases)
    - [Extending the query builder](extending-builder)
    - [Upgrading](upgrading)
+   - [Unit tests](unit-tests)

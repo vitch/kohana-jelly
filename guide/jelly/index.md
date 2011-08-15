@@ -44,3 +44,15 @@ advanced usage.
 
 1.  [Extending the query builder](extending-builder)
 2.  [Defining custom fields](field-types/custom)
+
+## Get Involved in Jelly's developement
+
+As Jelly has always been a community project it's development and future depends on people who are willing to put some time into it.
+The easiest way to contribute is to fork the project on [GitHub](https://github.com/creatoro/kohana-jelly-for-Kohana-3.1).
+
+__Remember:__
+
+* you can directly edit files on GitHub (look for the __Edit this file__ button), there's no need to get familiar with Git if you don't want to
+* please follow the [Kohana conventions](../kohana/conventions) for coding
+* read the [introduction to the unit tests](unit-tests) and run them if you make changes to Jelly to minimalize the chances of introducing new bugs
+* and thanks for helping Jelly become better!
