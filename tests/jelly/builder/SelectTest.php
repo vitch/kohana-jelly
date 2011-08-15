@@ -34,7 +34,7 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 
 			// Miscellaneous things
 			array(Jelly::query('test_post')->select_column('TRIM("_slug")', 'trimmed_slug'), 2),
-			array(Jelly::query('test_author')->with('test_role'), 3),
+			array(Jelly::query('test_author')->with('permission'), 3),
 		);
 	}
 
@@ -126,11 +126,32 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 	}
 
 	/**
-	 * Tests basic with() functionality
+	 * Provides test data for test_with()
+	 *
+	 * @return  array
 	 */
-	public function test_with()
+	public function provider_with()
 	{
-		$query = Jelly::query('test_post')->with('approved_by')->select();
+		return array(
+			// Single 'with' using non-standard relationship naming
+			array(Jelly::query('test_post'), array('approved_by')),
+			// Multiple 'with' using non-standard relationship naming
+			array(Jelly::query('test_post'), array('approved_by', 'permission')),
+		);
+	}
+
+	/**
+	 * Tests for with()
+	 *
+	 * @dataProvider  provider_with
+	 * @param         Jelly          $query
+	 * @param         array          $with
+	 * @return        void
+	 */
+	public function test_with($query, $with)
+	{
+		// Load query
+		$query = $query->with(implode(':', $with))->select();
 
 		// Ensure we find the proper columns in the result
 		foreach ($query->as_array() as $array)
@@ -143,6 +164,7 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 		foreach ($query as $model)
 		{
 			$this->assertTrue($model->test_author instanceof Model_Test_Author);
+			$this->assertTrue($model->test_author->permission instanceof Model_Test_Role);
 		}
 	}
 

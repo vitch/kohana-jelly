@@ -31,12 +31,14 @@ class Model_Test_Post extends Jelly_Model {
 
 			// Relationships
 			'test_author'     => Jelly::field('belongsto'),
+			'test_categories' => Jelly::field('manytomany'),
+
+			// Relationship with non-standard naming
 			'approved_by'     => Jelly::field('belongsto', array(
 				'foreign' => 'test_author.id',
 				'column'  => 'approved_by',
 			)),
-			'test_categories' => Jelly::field('manytomany'),
-			
+
 			// Alias columns, for testing
 			'_id'             => 'id',
 			'_slug'           => 'slug',
