@@ -132,14 +132,22 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 	 */
 	public function get($model, $value)
 	{
-		// If the value hasn't changed, we need to pull from the database
-		if ( ! $model->changed($this->name))
+		if ($model->changed($this->name))
 		{
-			$value = $this->_in($model);
+			return Jelly::query($this->foreign['model'])
+					->where($this->foreign['column'], 'IN', $value);
 		}
 
+		// Set columns
+		$join_col1 = $this->through['model'].'.'.$this->through['fields'][1];
+		$join_col2 = $this->foreign['model'].'.'.$this->foreign['field'];
+		$where_col = $this->through['model'].'.'.$this->through['fields'][0];
+
+		// If the value hasn't changed, we need to pull from the database
 		return Jelly::query($this->foreign['model'])
-		            ->where($this->foreign['field'], 'IN', $value);
+					->join($this->through['model'])
+					->on($join_col1, '=', $join_col2)
+					->where($where_col, '=', $model->id());
 	}
 
 	/**
