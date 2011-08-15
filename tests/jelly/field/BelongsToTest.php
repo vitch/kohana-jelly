@@ -11,23 +11,33 @@
 class Jelly_Field_BelongsToTest extends Unittest_Jelly_TestCase {
 
 	/**
-	 * Provider for test_get
+	 * Provides test data for test_get
+	 *
+	 * @return  array
 	 */
 	public function provider_get()
 	{
 		return array(
+			// Get existing author
 			array(Jelly::factory('test_post', 1)->get('test_author'), TRUE),
+			// Get existing author
 			array(Jelly::factory('test_post', 2)->get('test_author'), TRUE),
+			// Get existing author with invalid name
 			array(Jelly::factory('test_post', 2)->get('test_author')->where('name', 'IS', NULL), FALSE),
+			// Get non-existing author
 			array(Jelly::factory('test_post', 555)->get('test_author'), FALSE),
+			// Get author without specifying a post
 			array(Jelly::factory('test_post')->get('test_author'), FALSE),
 		);
 	}
 
 	/**
-	 * Tests Jelly_Field_BelongsTo::get()
+	 * Tests for Jelly_Field_BelongsTo::get()
 	 *
 	 * @dataProvider  provider_get
+	 * @param         Jelly         $builder
+	 * @param         bool          $loaded
+	 * @return        void
 	 */
 	public function test_get($builder, $loaded)
 	{
@@ -39,5 +49,5 @@ class Jelly_Field_BelongsToTest extends Unittest_Jelly_TestCase {
 		// Ensure it's loaded if it should be
 		$this->assertSame($loaded, $model->loaded());
 	}
-}
 
+} // End Jelly_Field_BelongsToTest
