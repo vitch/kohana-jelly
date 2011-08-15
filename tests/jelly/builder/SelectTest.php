@@ -11,14 +11,20 @@
 class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 
 	/**
-	 * Provider for test_multiple_select.
+	 * Provides test data for test_multiple_select()
+	 *
+	 * @return  array
 	 */
 	public function provider_multiple_select()
 	{
 		return array(
+			// Select all posts
 			array(Jelly::query('test_post'), 2),
+			// Select post with id 1
 			array(Jelly::query('test_post')->where(':primary_key', '=', 1), 1),
+			// Select all posts ordered by is ascending
 			array(Jelly::query('test_post')->order_by(':primary_key', 'ASC'), 2),
+			// Select all posts where id is NULL
 			array(Jelly::query('test_post')->where(':primary_key', 'IS', NULL), 0),
 
 			// Test aliasing columns
@@ -43,6 +49,10 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 	 * relatively sane.
 	 *
 	 * @dataProvider  provider_multiple_select
+	 * @param         Jelly                     $result
+	 * @param         int                       $count
+	 * @param         bool                      $is_model
+	 * @return        void
 	 */
 	public function test_multiple_select($result, $count, $is_model = TRUE)
 	{
@@ -76,14 +86,20 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 	}
 
 	/**
-	 * Provider for test_single_select.
+	 * Provides test data for test_single_select()
+	 *
+	 * @return  array
 	 */
 	public function provider_single_select()
 	{
 		return array(
+			// Select post with id 1
 			array(Jelly::query('test_post', 1)->select(), TRUE),
+			// Select post with id 0
 			array(Jelly::query('test_post', 0)->select(), FALSE),
+			// Select post with id 1 using where statement and limiting to 1
 			array(Jelly::query('test_post')->where(':primary_key', '=', 1)->limit(1)->select(), TRUE),
+			// Select post with id 1 and order it by id ascending
 			array(Jelly::query('test_post', 1)->order_by(':primary_key', 'ASC')->select(), TRUE),
 		);
 	}
@@ -92,6 +108,9 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 	 * Tests returning a model directly from a SELECT.
 	 *
 	 * @dataProvider  provider_single_select
+	 * @param         Jelly                   $model
+	 * @param         bool                    $exists
+	 * @return        void
 	 */
 	public function test_single_select($model, $exists)
 	{
@@ -109,20 +128,6 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 			$this->assertFalse($model->saved());
 			$this->assertTrue($model->id === $model->meta()->field('id')->default);
 		}
-	}
-
-	/**
-	 * Provider for test_as_object
-	 */
-	public function provider_as_object()
-	{
-		return array(
-			array(Jelly::query('test_post')->select(), 'Model_Test_Post'),
-			array(Jelly::query('test_post')->as_object('Model_Test_Post')->select(), 'Model_Test_Post'),
-			array(Jelly::query('test_post')->as_object(TRUE)->select(), 'Model_Test_Post'),
-			array(Jelly::query('test_post')->as_assoc()->select(), FALSE),
-			array(Jelly::query('test_post')->as_object(FALSE)->select(), FALSE),
-		);
 	}
 
 	/**
@@ -169,9 +174,28 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 	}
 
 	/**
-	 * Tests Jelly_Builder::as_object()
+	 * Provides test data for test_as_object()
+	 *
+	 * @return  array
+	 */
+	public function provider_as_object()
+	{
+		return array(
+			array(Jelly::query('test_post')->select(), 'Model_Test_Post'),
+			array(Jelly::query('test_post')->as_object('Model_Test_Post')->select(), 'Model_Test_Post'),
+			array(Jelly::query('test_post')->as_object(TRUE)->select(), 'Model_Test_Post'),
+			array(Jelly::query('test_post')->as_assoc()->select(), FALSE),
+			array(Jelly::query('test_post')->as_object(FALSE)->select(), FALSE),
+		);
+	}
+
+	/**
+	 * Tests for Jelly_Builder::as_object()
 	 *
 	 * @dataProvider  provider_as_object
+	 * @param         Jelly               $result
+	 * @param         string|bool         $class
+	 * @return        void
 	 */
 	public function test_as_object($result, $class)
 	{
@@ -188,6 +212,8 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 	/**
 	 * Test for issue #58 that ensures count() uses any load_with
 	 * conditions specified.
+	 *
+	 * @return  void
 	 */
 	public function test_count_uses_load_with()
 	{
@@ -202,6 +228,8 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 
 	/**
 	 * Test for Issue #95. This only fails when testing on Postgres.
+	 *
+	 * @return  void
 	 */
 	public function test_count_works_on_postgres()
 	{
@@ -211,4 +239,5 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 			 ->order_by('foo')
 			 ->count();
 	}
-}
+
+} // End Jelly_Builder_SelectTest

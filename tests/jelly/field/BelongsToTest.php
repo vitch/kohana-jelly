@@ -11,7 +11,7 @@
 class Jelly_Field_BelongsToTest extends Unittest_Jelly_TestCase {
 
 	/**
-	 * Provides test data for test_get
+	 * Provides test data for test_get()
 	 *
 	 * @return  array
 	 */
