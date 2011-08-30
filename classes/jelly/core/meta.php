@@ -145,9 +145,15 @@ abstract class Jelly_Core_Meta
 			}
 		}
 
-		// Initialize behaviors
 		foreach ($this->_behaviors as $name => $behavior)
 		{
+			if ( ! $behavior instanceof Jelly_Behavior)
+				throw new Kohana_Exception('Behavior at index [ :key ] is not an instance of Jelly_Behavior, :type found.', array(
+					':type' => is_object($behavior) ? ('instance of '.get_class($behavior)) : gettype($behavior),
+					':key'   => $name,
+				));
+
+			// Initialize behavior
 			$behavior->initialize($this->_events, $model, $name);
 		}
 
@@ -189,7 +195,7 @@ abstract class Jelly_Core_Meta
 		}
 
 		// Initialize all of the fields with their column and the model name
-		foreach($this->_fields as $column => $field)
+		foreach ($this->_fields as $column => $field)
 		{
 			// Allow aliasing fields
 			if (is_string($field))
@@ -257,7 +263,7 @@ abstract class Jelly_Core_Meta
 	}
 
 	/**
-	 * Allows setting a variable only when initialized
+	 * Allows setting a variable only when not initialized.
 	 *
 	 * @param   string      $key
 	 * @param   mixed       $value
@@ -268,7 +274,7 @@ abstract class Jelly_Core_Meta
 		if ($this->_initialized)
 		{
 			throw new Kohana_Exception(':class already initialized, cannot set :key to :value', array(
-				':class' => get_class($this),
+				':class' => Jelly::class_name($this->_model),
 				':key'   => $key,
 				':value' => $value,
 			));
@@ -276,6 +282,33 @@ abstract class Jelly_Core_Meta
 
 		// Set key's value
 		$this->{'_'.$key} = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Allows appending an array to a variable only when not initialized.
+	 *
+	 * @param   string      $key
+	 * @param   mixed       $value
+	 * @return  Jelly_Meta
+	 */
+	protected function set_append($key, $value)
+	{
+		if ($this->_initialized)
+		{
+			// Throw exception
+			throw new Kohana_Exception(':class already initialized, cannot append to :key', array(
+				':class' => Jelly::class_name($this->_model),
+				':key'   => $key,
+			));
+		}
+
+		if (is_array($value))
+		{
+			// Set key's value
+			$this->{'_'.$key} += $value;
+		}
 
 		return $this;
 	}
@@ -413,15 +446,8 @@ abstract class Jelly_Core_Meta
 			return $this->_fields;
 		}
 
-		if (is_array($field))
-		{
-			if ( ! $this->_initialized)
-			{
-				// Allows fields to be appended
-				$this->_fields += $field;
-				return $this;
-			}
-		}
+		// Try to append
+		return $this->set_append('fields', $field);
 	}
 
 	/**
@@ -484,20 +510,15 @@ abstract class Jelly_Core_Meta
 	 * @param   array|null  $behaviors
 	 * @return  array|Jelly_Core_Meta
 	 */
-	public function behaviors($behaviors = NULL)
+	public function behaviors(array $behaviors = NULL)
 	{
-		if (func_num_args() == 0 OR $this->_initialized)
+		if (func_num_args() == 0)
 		{
 			return $this->_behaviors;
 		}
 
-		if (is_array($behaviors))
-		{
-			// Allows behaviors to be appended
-			$this->_behaviors += $behaviors;
-		}
-
-		return $this;
+		// Try to append
+		return $this->set_append('behaviors', $behaviors);
 	}
 
 	/**
@@ -575,15 +596,15 @@ abstract class Jelly_Core_Meta
 	 * @param   array  $children
 	 * @return  array
 	 */
-	public function children($children = array())
+	public function children(array $children = NULL)
 	{
-		if (func_num_args() AND ! $this->_initialized)
+		if (func_num_args() == 0)
 		{
-			$this->_children += $children;
-			return $this;
+			return $this->_children;
 		}
 
-		return $this->_children;
+		// Try to append
+		return $this->set_append('children', $children);
 	}
 
 	/**
