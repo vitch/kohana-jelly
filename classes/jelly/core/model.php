@@ -199,7 +199,7 @@ abstract class Jelly_Core_Model
 	 */
 	public function __unset($name)
 	{
-		if ($field = $this->_meta->field($name, TRUE))
+		if ($field = $this->_meta->field($name)->name)
 		{
 			// Ensure changed and retrieved data is cleared
 			// This effectively clears the cache and any changes
@@ -489,7 +489,7 @@ abstract class Jelly_Core_Model
 
 				// Alias as it comes back in, which allows
 				// people to use with() with alaised field names
-				$relationship = $this->_meta->field(array_shift($targets), TRUE);
+				$relationship = $this->_meta->field(array_shift($targets))->name;
 
 				// Find the field we need to set the value as
 				$target = implode(':', $targets);
@@ -860,7 +860,7 @@ abstract class Jelly_Core_Model
 	{
 		if ($field)
 		{
-			return array_key_exists($this->_meta->field($field, TRUE), $this->_changed);
+			return array_key_exists($this->_meta->field($field)->name, $this->_changed);
 		}
 		else
 		{

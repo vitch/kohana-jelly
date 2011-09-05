@@ -57,7 +57,7 @@ class Jelly_MetaTest extends Unittest_TestCase {
 		
 		// Ensure we can retrieve fields properly
 		$this->assertSame($meta->field('_id'), $fields['id2']);
-		$this->assertSame($meta->field('id2', TRUE), 'id2');
+		$this->assertSame($meta->field('id2')->name, 'id2');
 		
 		// Ensure all fields match
 		$this->assertSame($meta->fields(), $fields);

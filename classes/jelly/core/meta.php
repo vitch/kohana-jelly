@@ -372,82 +372,84 @@ abstract class Jelly_Core_Meta
 	}
 
 	/**
-	 * Getter/setter for individual fields
+	 * Getter / setter for individual fields.
 	 *
-	 * @param   string       $name
-	 * @param   bool|string  $type
-	 * @param   array|mixed  $options
+	 * @param   string       $name     name of the field
+	 * @param   mixed        $field    the field alias or object
 	 * @return  Jelly_Field|Jelly_Meta|null
 	 */
-	public function field($name, $type = FALSE, $options = array())
+	public function field($name, $field = NULL)
 	{
-		// If $type is boolean, we're searching for a field
-		if (is_bool($type))
+		if ($field === NULL)
 		{
+			// Get the field
 			if ( ! isset($this->_field_cache[$name]))
 			{
+				// Set the resolved name to the given name for now
 				$resolved_name = $name;
 
 				if (isset($this->_aliases[$name]))
 				{
+					// If the field is among the aliases set the alias as resolved name
 					$resolved_name = $this->_aliases[$name];
 				}
 
 				if (isset($this->_fields[$resolved_name]))
 				{
+					// Get the field from cache using the resolved name
 					$this->_field_cache[$name] = $this->_fields[$resolved_name];
 				}
 				else
 				{
+					// No such field found
 					return NULL;
 				}
 			}
 
-			if ($type)
-			{
-				return $this->_field_cache[$name]->name;
-			}
-			else
-			{
-				return $this->_field_cache[$name];
-			}
-
-			return NULL;
+			// Return the field
+			return $this->_field_cache[$name];
 		}
 
-		// If we've made it here it's a standard setter
-		if ( ! $this->_initialized)
+		if ($this->_initialized)
 		{
-			// Allows fields to be appended
-			$this->_fields[$name] = Jelly::field($type, $options);
-
-			return $this;
+			// Cannot set after initialization
+			throw new Kohana_Exception(':class already initialized, cannot set :field', array(
+				':class' => Jelly::class_name($this->_model),
+				':field'   => $name,
+			));
 		}
+
+		// Set the field
+		$this->_fields[$name] = $field;
+
+		// Return Jelly_Meta
+		return $this;
 	}
 
 	/**
-	 * Returns the fields for this object.
+	 * Gets and sets the fields for this object.
 	 *
-	 * If $field is specified, only the particular field is returned.
-	 * If $name is TRUE, the name of the field specified is returned.
+	 * Calling this multiple times will overwrite fields.
 	 *
-	 * You can pass an array for $field to set more fields. Calling
-	 * this multiple times while setting will append fields, not
-	 * overwrite fields.
-	 *
-	 * @param   string|null  $field
-	 * @param   bool         $name
+	 * @param   array|null  $fields
 	 * @return  array|Jelly_Meta
 	 */
-	public function fields($field = NULL, $name = FALSE)
+	public function fields(array $fields = NULL)
 	{
-		if (func_num_args() == 0)
+		if ($fields === NULL)
 		{
+			// Return the fields
 			return $this->_fields;
 		}
 
-		// Try to append
-		return $this->set_append('fields', $field);
+		foreach ($fields as $name => $field)
+		{
+			// Set the field
+			$this->field($name, $field);
+		}
+
+		// Return Jelly_Meta
+		return $this;
 	}
 
 	/**
