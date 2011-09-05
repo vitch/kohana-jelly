@@ -35,5 +35,4 @@
       - [Built-in Events](behaviors/events)
       - [Custom Events](behaviors/custom-events)
    - [Extending the query builder](extending-builder)
-   - [Upgrading](upgrading)
    - [Unit tests](unit-tests)
