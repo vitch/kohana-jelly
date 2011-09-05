@@ -10,7 +10,7 @@ class Model_Test_Role extends Jelly_Model {
 	public static function initialize(Jelly_Meta $meta)
 	{
 		// Set database to connect to
-		$meta->db(Kohana::config('unittest')->db_connection);
+		$meta->db(Unittest_Jelly_Testcase::$_database_connection);
 
 		// Define fields
 		$meta->fields(array(

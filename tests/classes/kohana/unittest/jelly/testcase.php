@@ -3,6 +3,12 @@
 class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
 
 	/**
+	 * The kohana database connection that PHPUnit should use for this test
+	 * @var string
+	 */
+	public static $_database_connection = 'default';
+
+	/**
 	* Creates tables.
 	 *
 	 * @return  void
@@ -14,11 +20,8 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
 	{
 		parent::setUpBeforeClass();
 
-		// Set database name
-		$db_name = Kohana::config('unittest')->db_connection;
-
 		// Load config
-		$config = Kohana::config('database')->$db_name;
+		$config = Kohana::config('database.'.self::$_database_connection);
 
 		// Set type
 		$type = $config['type'];
@@ -48,7 +51,7 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
 			}
 
 			// Execute query
-			DB::query(NULL, $query)->execute($db_name);
+			DB::query(NULL, $query)->execute(self::$_database_connection);
 		}
 	}
 
@@ -62,14 +65,11 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
      */
     public function getConnection()
     {
-		// Set database name
-		$db_name = Kohana::config('unittest')->db_connection;
-
 		// Load config
-		$config = Kohana::config('database')->$db_name;
+		$config = Kohana::config('database.'.self::$_database_connection);
 
 		// Create database instance
-		$db = Database::instance($db_name);
+		$db = Database::instance(self::$_database_connection);
 
 		if ($db instanceof Database_PDO)
 		{
