@@ -22,7 +22,15 @@ This is exactly the same as `Jelly_Field_HasMany` with the exception that Jelly 
 
 **Using this relationship**
 
-	$author = Jelly::query('author', 1)->select();
+	// Build query
+	$author = Jelly::query('author', 1);
+
+	// 1:1 relationships can be joined upon querying using the 'with()' method,
+	// in this case author has one post
+	$post->with('post');
+
+	// Select the author only if the post is approved (notice the ':' before the joined models)
+	$post->where(':post.approved_by', '!=', '0')->select();
 
 	// Access the post's name
 	$author->post->name;

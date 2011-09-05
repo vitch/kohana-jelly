@@ -84,3 +84,16 @@ which will always return `Jelly_Collection`.
 	{
 		echo $post->text;
 	}
+
+### Selecting only specified columns
+
+You can select only specified columns in your queries with the `select_columns()` method.
+
+	// Select one at a time
+	$query->select_column('id')->select_column('name')->select();
+
+	// Select a column and alias it (only possible with columns defined individually)
+	$query->select_column('name', 'name_alias')->select();
+
+	// Or many at a time
+	$query->select_column(array('id', 'name', 'body'))->select();

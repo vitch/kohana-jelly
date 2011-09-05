@@ -29,7 +29,15 @@ it actually represents a column in the database. Generally, this property is goi
 
 **Using this relationship**
 
-	$post = Jelly::query('post', 1)->select();
+	// Build query
+	$post = Jelly::query('post', 1);
+
+	// Multiple 1:1 relationships can be joined upon querying using the 'with()' method,
+	// in this case post belongs to author and author belongs to role
+	$post->with('author:role');
+
+	// Select the post only if it was written by admin (notice the ':' before the joined models)
+	$post->where(':author:role.type', '=', 'admin')->select();
 
 	// Access the author's name
 	echo $post->author->name;
