@@ -1,19 +1,19 @@
-Jelly is a nice little ORM for Kohana 3.1+. It is currently in beta.
+Jelly is a nice little ORM for Kohana 3.1+.
+The project was originally started by [Jonathan Geiger](http://jonathan-geiger.com/) and co-developed by [Paul Banks](http://blog.banksdesigns.co.uk/).
 
 IMPORTANT
 ========
 
 **Critical to know**:
 
-* keep a close eye on Github as updates can be frequent and require you to change your code
-* use the default, `3.1/develop` branch until a `3.1/master` branch is created
+* use the `3.x/master` branches for production as the `3.x/develop` branches are subject to frequent and major changes
 * userguide is being updated
 
 **Requirements**
 
 Jelly requires the following Kohana versions per Git branch:
 
-* `3.1/develop` branch: Kohana 3.1.3+
+* `3.1/develop` and `3.1/master` branch: Kohana 3.1.3+
 
 **Useful stuff**:
 
