@@ -13,7 +13,8 @@ IMPORTANT
 
 Jelly requires the following Kohana versions per Git branch:
 
-* `3.1/develop` and `3.1/master` branch: Kohana 3.1.3+
+* `3.1/develop` and `3.1/master` branches: Kohana 3.1.3+
+* `3.2/develop` and `3.2/master` branches: Kohana 3.2+
 
 **Useful stuff**:
 
