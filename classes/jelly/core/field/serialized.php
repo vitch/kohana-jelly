@@ -27,7 +27,7 @@ abstract class Jelly_Core_Field_Serialized extends Jelly_Field {
 
 		if ( ! $return)
 		{
-		 	if (($new_value = @unserialize($value)) !== FALSE)
+		 	if (is_string($value) AND ($new_value = @unserialize($value)) !== FALSE)
 			{
 				$value = $new_value;
 			}
