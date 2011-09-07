@@ -13,6 +13,7 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
 	 *
 	 * @return  void
 	 * @uses    parent::setUpBeforeClass
+	 * @uses    Kohana::$config
 	 * @uses    Kohana::find_file
 	 * @uses    DB::query
 	*/
@@ -21,7 +22,7 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
 		parent::setUpBeforeClass();
 
 		// Load config
-		$config = Kohana::config('database.'.self::$database_connection);
+		$config = Kohana::$config->load('database.'.self::$database_connection);
 
 		// Set type
 		$type = $config['type'];
@@ -59,14 +60,14 @@ class Kohana_Unittest_Jelly_TestCase extends Kohana_Unittest_Database_TestCase {
 	 * Creates the database connection.
 	 *
      * @return  PHPUnit_Extensions_Database_DB_IDatabaseConnection
-	 * @uses    Kohana::config
+	 * @uses    Kohana::$config
 	 * @uses    Arr::get
 	 * @uses    PDO
      */
     public function getConnection()
     {
 		// Load config
-		$config = Kohana::config('database.'.self::$database_connection);
+		$config = Kohana::$config->load('database.'.self::$database_connection);
 
 		// Create database instance
 		$db = Database::instance(self::$database_connection);
