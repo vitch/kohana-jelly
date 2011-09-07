@@ -57,7 +57,7 @@ class Jelly_Builder_SelectTest extends Unittest_Jelly_TestCase {
 	public function test_multiple_select($result, $count, $is_model = TRUE)
 	{
 		// Set database connection name
-		$db = parent::$_database_connection;
+		$db = parent::$database_connection;
 
 		// Ensure the count matches a count() query
 		$this->assertEquals($result->count($db), $count);

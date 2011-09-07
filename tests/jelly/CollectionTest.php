@@ -15,7 +15,7 @@ class Jelly_CollectionTest extends Unittest_Jelly_TestCase {
 	public function provider_construction()
 	{
 		// Set database connection name
-		$db = parent::$_database_connection;
+		$db = parent::$database_connection;
 
 		// Set result
 		$result = DB::select()->from('test_posts');
