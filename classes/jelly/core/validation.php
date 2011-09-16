@@ -109,29 +109,29 @@ abstract class Jelly_Core_Validation extends Validation {
 					}
 				}
 
-				// Replace bound values for the rule
-				if (is_array($rule) AND ($rule[0] == ':model' OR $rule[0] == ':field') AND array_key_exists(':model', $this->_bound))
-				{
-					if ($rule[0] == ':model')
-					{
-						// Replace with bound value
-						$rule[0] = $this->_bound[$rule[0]];
-					}
-					elseif ($rule[0] == ':field')
-					{
-						// Set fields
-						$_fields = $this->_bound[':model']->meta()->fields();
-
-						// Replace with bound value
-						$rule[0] = $_fields[$field];
-					}
-				}
-
 				// Default the error name to be the rule (except array and lambda rules)
 				$error_name = $rule;
 
 				if (is_array($rule))
 				{
+					// Allows rule('field', array(':model', 'some_rule'));
+					if (is_string($rule[0]) AND array_key_exists($rule[0], $this->_bound))
+					{
+						if ($rule[0] == ':field')
+						{
+							// Set fields
+							$_fields = $this->_bound[':model']->meta()->fields();
+
+							// Replace with bound value
+							$rule[0] = $_fields[$field];
+						}
+						else
+						{
+							// Replace with bound value
+							$rule[0] = $this->_bound[$rule[0]];
+						}
+					}
+
 					// This is an array callback, the method name is the error name
 					$error_name = $rule[1];
 					$passed = call_user_func_array($rule, $params);
