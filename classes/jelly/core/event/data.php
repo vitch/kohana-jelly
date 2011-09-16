@@ -1,22 +1,25 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
- * Jelly_Event_Data is the object passed to all events.
- * 
- * It contains a set of public properties passed to it 
- * whoever triggered the event as well as the name of 
+ * Jelly Event Data is the object passed to all events
+ *
+ * It contains a set of public properties passed to it
+ * whoever triggered the event as well as the name of
  * the event being called.
- * 
+ *
  * Set `return` to whatever value you'd like to return,
  * though you should keep in mind that other events,
  * that come after may modify that value, so set
  * `stop` to TRUE if you want to prevent the chain from
  * continuing.
- * 
- * @package  Jelly
+ *
+ * @package    Jelly
+ * @category   Events
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Event_Data
-{
+abstract class Jelly_Core_Event_Data {
+
 	/**
 	 * @var  string  The name of the event
 	 */
@@ -64,4 +67,5 @@ abstract class Jelly_Core_Event_Data
 	{
 		$this->stop = TRUE;
 	}
-}
+
+} // End Jelly_Core_Event_Data

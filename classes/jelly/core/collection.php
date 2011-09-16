@@ -1,20 +1,24 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
- * Jelly_Collection encapsulates a Database_Result object. It has the exact same API.
+ * Jelly Collection
  *
+ * Jelly_Collection encapsulates a Database_Result object. It has the exact same API.
  * It offers a few special features that make it useful:
  *
- *  * Only one model is instantiated for the whole result set, which
+ *  - Only one model is instantiated for the whole result set, which
  *    is significantly faster in terms of performance.
- *  * It is easily extensible, so things like polymorphism and
+ *  - It is easily extensible, so things like polymorphism and
  *    recursive result sets can be easily implemented.
  *
  * Jelly_Collection likes to know what model its result set is related to,
  * though it's not required. Some features may disappear, however, if
  * it doesn't know the model it's working with.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @category   Query/Result
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 abstract class Jelly_Core_Collection implements Iterator, Countable, SeekableIterator, ArrayAccess {
 
@@ -247,4 +251,5 @@ abstract class Jelly_Core_Collection implements Iterator, Countable, SeekableIte
 
 		return $values;
 	}
+
 } // End Jelly_Core_Collection

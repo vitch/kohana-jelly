@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles timestamps and conversions to and from different formats.
+ * Handles timestamps and conversions to and from different formats
  *
  * All timestamps are represented internally by UNIX timestamps, regardless
  * of their format in the database. When the model is saved, the value is
@@ -13,6 +13,7 @@
  * property for the field.
  *
  * @package    Jelly
+ * @category   Fields
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt

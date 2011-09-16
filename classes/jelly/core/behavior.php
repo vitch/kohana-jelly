@@ -1,29 +1,33 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
+ * Jelly Behavior
+ *
  * Jelly_Behavior is a simple class that all behaviors must extend
  * so that behaviors can be consistently packaged and used.
- * 
- * Behaviors are expected to bind themselves to events on the 
- * model in their initialize() method. By default, Jelly will 
+ *
+ * Behaviors are expected to bind themselves to events on the
+ * model in their initialize() method. By default, Jelly will
  * auto-discover your events and bind them for you as long as
  * you prefix the method with either "model" or "builder".
- * 
+ *
  * For example, a method in your behavior named "model_before_save"
  * will be bound to the "model.before_save" event.
- * 
+ *
  * You can prevent this auto-discovering of methods by overloading
  * the `event()` method in this class and binding the events
  * yourself.
- * 
- * The guide explains all available events, as well as how to 
+ *
+ * The guide explains all available events, as well as how to
  * use custom events.
  *
- * @see      Jelly_Behavior
- * @package  Jelly
+ * @package    Jelly
+ * @category   Behaviors
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Behavior
-{	
+abstract class Jelly_Core_Behavior {
+
 	/**
 	 * @var  string  The model this is attached to
 	 */
@@ -84,4 +88,5 @@ abstract class Jelly_Core_Behavior
 			}
 		}
 	}
-}
+
+} // End Jelly_Core_Behavior

@@ -1,6 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
+ * Jelly Builder
+ *
  * Jelly_Builder is a class used for query building. It handles
  * automatic aliasing of all models and columns (but also supports
  * unknown models and fields).
@@ -14,10 +15,14 @@
  * query builder statements, just as you would with Kohana's native
  * facilities.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @category   Query
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Builder extends Database_Query_Builder_Select
-{
+abstract class Jelly_Core_Builder extends Database_Query_Builder_Select {
+
 	/**
 	 * @var  string  The inital model used to construct the builder
 	 */
