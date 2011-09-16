@@ -90,6 +90,13 @@ abstract class Jelly_Core_Meta {
 	protected $_validation_options = NULL;
 
 	/**
+	 * The message filename used for validation errors.
+	 * Defaults to Jelly_Meta::$_model
+	 * @var string
+	 */
+	protected $_errors_filename = NULL;
+
+	/**
 	 * @var  array  A list of columns and how they relate to fields
 	 */
 	protected $_columns = array();
@@ -171,6 +178,12 @@ abstract class Jelly_Core_Meta {
 		$this->_defaults    =
 		$this->_field_cache =
 		$this->_aliases     = array();
+
+		if ( ! $this->_errors_filename)
+		{
+			// Default errors filename to the model's name
+			$this->_errors_filename = $this->_model;
+		}
 
 		// Table should be a sensible default
 		if (empty($this->_table))
@@ -509,6 +522,16 @@ abstract class Jelly_Core_Meta {
 
 		// Return the validation object with rules and labels
 		return $this->_validation_options;
+	}
+
+	/**
+	 * Returns the name of the file used for errors.
+	 *
+	 * @return string
+	 */
+	public function errors_filename()
+	{
+		return $this->_errors_filename;
 	}
 
 	/**

@@ -556,7 +556,7 @@ abstract class Jelly_Core_Model {
 
 			if (($this->_valid = $array->check()) === FALSE OR $extra_errors)
 			{
-				$exception = new Jelly_Validation_Exception($this->_meta->model(), $array);
+				$exception = new Jelly_Validation_Exception($this->_meta->errors_filename(), $array);
 
 				if ($extra_errors)
 				{
