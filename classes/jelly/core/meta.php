@@ -491,7 +491,7 @@ abstract class Jelly_Core_Meta {
 		// Set submitted fields
 		if ($update)
 		{
-			$submitted_fields = $validation->as_array();
+			$submitted_fields = $validation->data();
 		}
 
 		// Add our rules and labels
