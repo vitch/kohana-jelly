@@ -97,3 +97,16 @@ You can select only specified columns in your queries with the `select_columns()
 
 	// Or many at a time
 	$query->select_column(array('id', 'name', 'body'))->select();
+
+### Database expressions
+
+You can use database expressions just like in Kohana's [Database](../database/query/builder#database-expressions) module, with the same precautions.
+This means ** a database expression is taken as direct input and no escaping is performed**.
+
+Database expressions can be used in the following form:
+
+	// Selecting a column and transforming it to uppercase while aliasing it to 'name_in_uppercase'
+	Jelly::query('author')->select_column(DB::expr('UPPER(`name`)'), 'name_in_uppercase')->select();
+
+	// Using database expression in a where statement
+	Jelly::query('author')->where(DB::expr("BINARY `hash`"), '=', $hash)->select();

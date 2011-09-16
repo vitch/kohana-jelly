@@ -5,6 +5,7 @@
  * The with() method is expected to complete the join() clause.
  *
  * @package    Jelly
+ * @category   Fields/Interfaces
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt

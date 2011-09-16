@@ -1,10 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Interface for a field that can "have" other models.
+ * Interface for a field that can "have" other models
  *
- * This is used by the Jelly_Model's has() method,
+ * This is used by the Jelly_Model's has() method.
  *
  * @package    Jelly
+ * @category   Fields/Interfaces
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt

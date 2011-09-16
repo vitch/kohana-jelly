@@ -1,15 +1,14 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles file uploads.
+ * Handles file uploads
  *
  * Since this field is ultimately just a varchar in the database, it
  * doesn't really make sense to put rules like Upload::valid or Upload::type
  * on the validation object; if you ever want to NULL out the field, the validation
  * will fail!
  *
- * As such, these
- *
  * @package    Jelly
+ * @category   Fields
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt

@@ -1,11 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles enumerated lists.
+ * Handles enumerated lists
  *
  * A choices property is required, which is an array of valid options. If you
  * attempt to set a value that isn't a valid choice, the default will be used.
  *
  * @package    Jelly
+ * @category   Fields
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt

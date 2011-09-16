@@ -1,9 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles poylmorphic columns, which is typically a string that specifies
+ * Handles polymorphic columns
+ *
+ * A polymorphic column is typically a string that specifies
  * the model to use for the row.
  *
  * @package    Jelly
+ * @category   Fields
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt

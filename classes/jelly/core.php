@@ -1,13 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
+ * Jelly Core
+ *
  * This core class is the main interface to all
  * models, builders, and meta data.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @category   Base
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core
-{
+abstract class Jelly_Core {
+
 	/**
 	 * @var  string  The prefix to use for all model's class names
 	 *               This can be overridden to allow you to place
@@ -250,4 +255,5 @@ abstract class Jelly_Core
 	{
 		return Jelly::$_behavior_prefix;
 	}
+
 } // End Jelly_Core

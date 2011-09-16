@@ -1,6 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles passwords by automatically hashing them before they're
+ * Handles passwords
+ *
+ * Passwords are automatically hashed before they're
  * saved to the database.
  *
  * It is important to note that a new password is hashed in a validation
@@ -8,6 +10,7 @@
  * be hashed after validation.
  *
  * @package    Jelly
+ * @category   Fields
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -39,7 +42,7 @@ abstract class Jelly_Core_Field_Password extends Jelly_Field_String {
 	 *
 	 * @param   string       $password
 	 * @param   Jelly_Model  $model
-	 * @return  void
+	 * @return  string
 	 */
 	public function hash($password, Jelly_Model $model)
 	{
