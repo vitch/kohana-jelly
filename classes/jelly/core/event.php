@@ -1,15 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
- * Jelly_Event acts as a manager for all events bound to a model.
+ * Jelly Event acts as a manager for all events bound to a model
  *
  * The standard events are documented in the guide. Binding and
  * triggering custom events is entirely possible.
  *
- * @package  Jelly
+ * @package    Jelly
+ * @category   Events
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Event
-{
+abstract class Jelly_Core_Event {
+
 	/**
 	 * @var  array  The current model
 	 */
@@ -80,4 +83,5 @@ abstract class Jelly_Core_Event
 
 		return NULL;
 	}
+
 } // End Jelly_Core_Event

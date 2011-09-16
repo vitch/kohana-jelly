@@ -1,8 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles has one relationships.
+ * Handles has one relationships
  *
  * @package    Jelly
+ * @category   Fields
  * @author     Jonathan Geiger
  * @copyright  (c) 2010-2011 Jonathan Geiger
  * @license    http://www.opensource.org/licenses/isc-license.txt

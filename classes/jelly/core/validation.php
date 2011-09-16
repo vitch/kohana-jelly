@@ -1,14 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
+ * Jelly Validation
+ *
  * Jelly_Validation overrides Kohana's core validation class in order to add a few
  * Jelly-specific features.
  *
- * @see     Jelly_Model::check()
- * @package Jelly
+ * @package    Jelly
+ * @category   Security
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Validation extends Validation
-{
+abstract class Jelly_Core_Validation extends Validation {
+
 	/**
 	 * Creates a new Validation instance.
 	 *
@@ -192,4 +196,5 @@ abstract class Jelly_Core_Validation extends Validation
 
 		return empty($this->_errors);
 	}
+
 } // End Jelly_Validation

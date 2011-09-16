@@ -1,8 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Jelly Validation exceptions.
+ * Jelly Validation exceptions
  *
  * @package    Jelly
+ * @category   Security/Exceptions
  * @author     creatoro
  * @copyright  (c) 2007-2010 Kohana Team
  * @license    http://creativecommons.org/licenses/by-sa/3.0/legalcode
@@ -179,4 +180,5 @@ class Jelly_Core_Validation_Exception extends Kohana_Exception {
 	{
 		return $this->_objects;
 	}
+
 } // End Jelly_Core_Validation_Exception

@@ -1,13 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
+ * Jelly Model
+ *
  * Jelly_Model is the class all models must extend. It handles
  * various CRUD operations and relationships to other models.
  *
- * @package Jelly
+ * @package    Jelly
+ * @category   Models
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Model
-{
+abstract class Jelly_Core_Model {
+
 	/**
 	 * @var  array  The original data set on the object
 	 */
@@ -995,4 +1000,5 @@ abstract class Jelly_Core_Model
 
 		return $ids;
 	}
+
 }  // End Jelly_Core_Model

@@ -1,12 +1,17 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
 /**
+ * Jelly Meta
+ *
  * Jelly_Meta objects act as a registry of information about a particular model.
  *
- * @package Jelly
+ * @package    Jelly
+ * @category   Meta
+ * @author     Jonathan Geiger
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class Jelly_Core_Meta
-{
+abstract class Jelly_Core_Meta {
+
 	/**
 	 * @var  boolean  If this is FALSE, properties can still be set on the meta object
 	 */
@@ -646,4 +651,5 @@ abstract class Jelly_Core_Meta
 
 		return $this->_load_with;
 	}
+
 } // End Jelly_Core_Meta

@@ -1,6 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Handles image uploads and optionally refactors the original image and creates thumbnails of different sizes from the
+ * Handles image uploads
+ *
+ * Optionally refactors the original image and creates thumbnails of different sizes from the
  * uploaded image (as specified by the $thumbnails array).
  *
  * The original image can be refactored, just like the way each thumbnail is specified as an array with the following
@@ -32,8 +34,12 @@
  *     )
  *
  * @package    Jelly
- * @author     Jonathan Geiger, Kelvin Luck, Miodrag Tokić
- * @copyright  (c) 2010-2011 Jonathan Geiger, Kelvin Luck
+ * @category   Fields
+ * @author     Jonathan Geiger
+ * @author     Kelvin Luck
+ * @author     Miodrag Tokić
+ * @copyright  (c) 2010-2011 Jonathan Geiger
+ * @copyright  (c) 2010-2011 Kelvin Luck
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 abstract class Jelly_Core_Field_Image extends Jelly_Field_File {
