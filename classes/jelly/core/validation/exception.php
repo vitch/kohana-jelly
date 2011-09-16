@@ -12,15 +12,15 @@
 class Jelly_Core_Validation_Exception extends Kohana_Exception {
 
 	/**
-   * Array of validation objects
-   * @var array
-   */
+	 * Array of validation objects
+	 * @var array
+	 */
 	protected $_objects = array();
 
 	/**
-   * The _object_name property of the main Jelly model this exception was created for
-   * @var string
-   */
+	 * The _object_name property of the main Jelly model this exception was created for
+	 * @var string
+	 */
 	protected $_object_name = NULL;
 
 	/**
