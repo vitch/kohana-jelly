@@ -134,8 +134,11 @@ abstract class Jelly_Core_Field_ManyToMany extends Jelly_Field implements Jelly_
 	{
 		if ($model->changed($this->name))
 		{
-			return Jelly::query($this->foreign['model'])
-					->where($this->foreign['field'], 'IN', $value);
+			return $value == array() ?
+								$value
+									:
+								Jelly::query($this->foreign['model'])
+									->where($this->foreign['field'], 'IN', $value);
 		}
 
 		// Set columns
