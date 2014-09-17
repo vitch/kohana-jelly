@@ -158,7 +158,7 @@ abstract class Jelly_Builder_Core extends Kohana_Database_Query_Builder_Select
 
 		// Find the count
 		return (int) $query
-						->select(array('COUNT("*")', 'total'))
+						->select(array(DB::expr('COUNT(*)'), 'total'))
 						->execute($db)
 						->get('total');
 	}
